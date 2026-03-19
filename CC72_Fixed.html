@@ -1,0 +1,2949 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1B5E20">
+<title>CC-72 الیکشن سسٹم</title>
+<link rel="manifest" id="pwa-manifest">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231B5E20'/><text y='70' x='50' text-anchor='middle' font-size='55'>🏆</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Urdu font fallback chain */
+@font-face {
+  font-family: 'UrduFallback';
+  src: local('Noto Nastaliq Urdu'), local('Jameel Noori Nastaleeq'), 
+       local('Alvi Nastaleeq'), local('Urdu Typesetting');
+}
+</style>
+<style>
+:root{
+  --g1:#1B5E20;--g2:#2E7D32;--g3:#43A047;--gp:#E8F5E9;--gh:#C8E6C9;
+  --gold:#F57F17;--golda:#FFF8E1;--goldd:#FFD54F;--golddark:#E65100;
+  --red:#B71C1C;--redl:#FFEBEE;--redm:#E53935;
+  --blue:#0D47A1;--bluel:#E3F2FD;
+  --teal:#004D40;--teall:#E0F2F1;--tealm:#00695C;
+  --pink:#880E4F;--pinkl:#FCE4EC;
+  --purple:#4A148C;--purplel:#F3E5F5;
+  --bg:#ECF0EC;--card:#fff;
+  --txt:#0A1A0A;--txt2:#4A5568;--txt3:#718096;
+  --border:#C8E6C9;--border2:#A5D6A7;
+  --sh:0 2px 14px rgba(27,94,32,.09);
+  --sh-lg:0 8px 36px rgba(27,94,32,.17);
+  --r:16px;--r-sm:10px;--r-xs:6px;
+  --ur:'Noto Nastaliq Urdu',serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{height:100%;overflow:hidden}
+body{font-family:var(--ur);background:var(--bg);color:var(--txt);direction:rtl;
+     font-size:15px;line-height:2.2;height:100%;overflow:hidden;
+     -webkit-text-size-adjust:100%;text-size-adjust:100%}
+
+/* HEADER */
+.hdr{background:linear-gradient(150deg,#071a09 0%,#1B5E20 35%,#2E7D32 65%,#388E3C 100%);
+box-shadow:0 6px 28px rgba(27,94,32,.45);position:relative;z-index:300}
+.hdr-top{padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.hdr-brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.hdr-logo{width:44px;height:44px;background:rgba(255,255,255,.18);border-radius:50%;
+display:flex;align-items:center;justify-content:center;font-size:24px;
+border:2px solid rgba(255,255,255,.35);flex-shrink:0;
+box-shadow:0 0 0 4px rgba(255,255,255,.08)}
+.hdr-t{min-width:0}
+.hdr-title{font-size:15px;font-weight:700;color:#fff;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hdr-sub{font-size:9px;color:rgba(255,255,255,.68);margin-top:1px}
+.hdr-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:4px 14px 10px}
+.kpi{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.15);
+border-radius:10px;padding:6px 3px;text-align:center}
+.kpi-n{font-size:16px;font-weight:700;color:#fff;font-family:var(--mono);line-height:1.2}
+.kpi-l{font-size:8px;color:rgba(255,255,255,.68);margin-top:2px;line-height:1.2}
+.kpi.gd .kpi-n{color:#FFD54F}
+.kpi.tl .kpi-n{color:#80DEEA}
+.kpi.rd .kpi-n{color:#FFAB91}
+
+/* TABS */
+.tabs{display:flex;flex-direction:row;background:#fff;border-bottom:2.5px solid var(--border);
+overflow-x:auto;scrollbar-width:none;box-shadow:0 3px 12px rgba(27,94,32,.08);
+position:relative;z-index:290;direction:ltr}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1;min-width:64px;padding:9px 4px 7px;text-align:center;border:none;
+background:none;cursor:pointer;font-family:var(--ur);font-size:11px;
+color:var(--txt2);border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;direction:rtl}
+.tab em{font-size:17px;display:block;margin-bottom:1px;font-style:normal}
+.tab.on{color:var(--g1);border-bottom-color:var(--g1);font-weight:700;background:var(--gp)}
+
+/* SCROLL AREA */
+#scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;
+height:calc(100vh - 155px - 52px)}
+
+/* PANELS */
+.panel{display:none;padding:13px;animation:fadeUp .2s ease}
+.panel.on{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+/* CARD */
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
+border:1px solid var(--border);padding:14px;margin-bottom:11px}
+.card-h{font-size:14px;font-weight:700;color:var(--g1);margin-bottom:12px;
+padding-bottom:8px;border-bottom:2px solid var(--gp);
+display:flex;align-items:center;gap:7px}
+
+/* BUTTONS */
+.btn{padding:10px 16px;border:none;border-radius:var(--r-sm);cursor:pointer;
+font-family:var(--ur);font-size:13px;font-weight:700;transition:all .18s;
+display:inline-flex;align-items:center;justify-content:center;gap:5px;
+user-select:none;text-decoration:none;line-height:1.6;
+-webkit-tap-highlight-color:transparent}
+.btn-p{background:var(--g1);color:#fff;box-shadow:0 4px 14px rgba(27,94,32,.3)}
+.btn-p:active{transform:scale(.96);box-shadow:0 2px 8px rgba(27,94,32,.2)}
+.btn-s{background:var(--gp);color:var(--g1);border:1.5px solid var(--border)}
+.btn-s:active{background:var(--gh)}
+.btn-d{background:var(--redl);color:var(--red);border:1.5px solid #FFCDD2}
+.btn-y{background:var(--goldd);color:#3E2723}
+.btn-teal{background:var(--teall);color:var(--teal);border:1.5px solid #B2DFDB}
+.btn-wa{background:#128C7E;color:#fff;box-shadow:0 3px 10px rgba(18,140,126,.3)}
+.btn-full{width:100%;justify-content:center;padding:13px;font-size:14px}
+.btn-sm{padding:6px 10px;font-size:11px;border-radius:var(--r-xs);min-height:34px}
+.btn-lg{padding:14px 22px;font-size:15px}
+.voted-no{min-width:74px;min-height:42px;font-size:12px;border-radius:22px;font-weight:700;
+background:#ECEFF1;color:#546E7A;border:2px solid #B0BEC5}
+.voted-yes{min-width:74px;min-height:42px;font-size:12px;border-radius:22px;font-weight:700;
+background:var(--g1);color:#fff;box-shadow:0 3px 10px rgba(27,94,32,.4)}
+
+/* FORMS */
+.fg{display:grid;gap:10px}
+.fg2{grid-template-columns:1fr 1fr}
+@media(max-width:440px){.fg2{grid-template-columns:1fr}}
+.fl{display:flex;flex-direction:column;gap:3px}
+.fl label{font-size:11px;font-weight:700;color:var(--g1)}
+.req{color:var(--redm)}
+input,select,textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);
+border-radius:var(--r-sm);font-family:var(--ur);font-size:13px;color:var(--txt);
+background:var(--bg);direction:rtl;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g2);
+box-shadow:0 0 0 3px rgba(46,125,50,.12);background:#fff}
+input[type=tel]{direction:ltr;text-align:right;font-family:var(--mono)}
+.hint{font-size:10px;color:var(--txt3);font-family:var(--mono)}
+
+/* SEARCH */
+.sw{position:relative;margin-bottom:10px}
+.sw input{padding:12px 46px 12px 14px;border:2px solid var(--border);background:#fff;font-size:14px}
+.sw input:focus{border-color:var(--g2);box-shadow:0 0 0 3px rgba(46,125,50,.12)}
+.si{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:20px;pointer-events:none;opacity:.38}
+
+/* CHIPS */
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.chip{padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);
+background:#fff;font-family:var(--ur);font-size:11px;cursor:pointer;
+transition:all .15s;color:var(--txt2);user-select:none}
+.chip.on{background:var(--g1);color:#fff;border-color:var(--g1)}
+
+/* BADGES */
+.b{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
+.bg{background:var(--gp);color:var(--g1)}
+.by{background:var(--golda);color:var(--golddark)}
+.br{background:var(--redl);color:var(--red)}
+.bb{background:var(--bluel);color:var(--blue)}
+.bk{background:#F5F5F5;color:#616161}
+.bt{background:var(--teall);color:var(--teal)}
+.bp{background:var(--pinkl);color:var(--pink)}
+
+/* STATS */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px}
+.sg3{grid-template-columns:1fr 1fr 1fr}
+.sc{background:#fff;border-radius:var(--r);padding:13px 10px;border:1.5px solid var(--border);
+text-align:center;box-shadow:var(--sh)}
+.sn{font-size:26px;font-weight:700;font-family:var(--mono);line-height:1}
+.sl{font-size:11px;color:var(--txt2);margin-top:4px}
+
+/* PROGRESS */
+.pw{margin-bottom:11px}
+.pl{font-size:11px;font-weight:600;margin-bottom:5px;display:flex;justify-content:space-between;color:var(--txt2)}
+.pb{height:11px;background:var(--gp);border-radius:10px;overflow:hidden}
+.pf{height:100%;border-radius:10px;transition:width .7s cubic-bezier(.4,0,.2,1)}
+.pb-s{height:7px}
+
+/* VOTER ROW */
+.vr{background:#fff;border-radius:14px;border:1.5px solid var(--border);
+padding:12px 14px 10px;margin-bottom:8px;position:relative;overflow:hidden}
+.vr::after{content:'';position:absolute;right:0;top:0;bottom:0;width:5px;border-radius:0 14px 14px 0}
+.vr.s-confirmed::after{background:var(--g2)}
+.vr.s-maybe::after{background:var(--goldd)}
+.vr.s-against::after{background:var(--redm)}
+.vr.s-unknown::after{background:#BDBDBD}
+.vr.v-yes{background:linear-gradient(135deg,#F1F8E9 0%,#fff 70%)}
+.vr-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.vname{font-size:15px;font-weight:700;line-height:1.3}
+.vdad{font-size:11px;color:var(--txt2);margin-top:1px}
+.vbdgs{display:flex;gap:4px;flex-wrap:wrap;margin-top:7px}
+.vmeta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;font-size:11px;color:var(--txt2);line-height:1.5}
+.vact{display:flex;gap:5px;margin-top:9px;flex-wrap:wrap;align-items:center}
+mark{background:var(--golda);padding:0 2px;border-radius:2px;font-style:normal}
+
+/* VIRTUAL LIST */
+#vlc{overflow-y:auto;-webkit-overflow-scrolling:touch}
+
+/* PIE */
+.pie-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.pie-leg{display:flex;flex-direction:column;gap:7px;font-size:12px}
+.pdot{width:11px;height:11px;border-radius:50%;flex-shrink:0;display:inline-block}
+
+/* TARGET HERO */
+.th{background:linear-gradient(135deg,var(--g1) 0%,var(--teal) 100%);
+border-radius:var(--r);padding:18px;margin-bottom:11px;color:#fff}
+.th-lbl{font-size:10px;opacity:.78;margin-bottom:4px}
+.th-nums{display:flex;align-items:baseline;gap:8px;margin-bottom:12px}
+.th-big{font-size:44px;font-weight:700;font-family:var(--mono);line-height:1;color:#FFD54F}
+.th-of{font-size:14px;opacity:.65}
+.th-bar{height:14px;background:rgba(255,255,255,.15);border-radius:10px;overflow:hidden;margin-bottom:6px}
+.th-fill{height:100%;background:linear-gradient(90deg,#FFD54F,#FF8F00);border-radius:10px;transition:width 1s ease}
+.th-foot{display:flex;justify-content:space-between;font-size:9px;opacity:.72}
+
+/* BLOCK CARDS */
+.bc{background:#fff;border-radius:var(--r);border:1.5px solid var(--border);overflow:hidden;margin-bottom:11px;box-shadow:var(--sh)}
+.bc.hm{border-color:var(--tealm)}
+.bc.ma{border-color:var(--g2)}
+.bc-h{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bc-h.hm-c{background:linear-gradient(135deg,var(--teal),var(--tealm))}
+.bc-h.ma-c{background:linear-gradient(135deg,var(--g1),var(--g2))}
+.bc-h.ot-c{background:linear-gradient(135deg,#37474F,#546E7A)}
+.bc-code{font-size:28px;font-weight:700;color:#fff;font-family:var(--mono)}
+.bc-nm{font-size:11px;color:rgba(255,255,255,.85);line-height:1.4}
+.bc-tag{background:rgba(255,255,255,.22);border-radius:20px;padding:3px 9px;font-size:10px;color:#fff;font-weight:700;white-space:nowrap;flex-shrink:0}
+.bc-b{padding:13px 14px}
+.vcg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
+.vci{text-align:center;padding:7px 4px;border-radius:10px}
+.vci.m{background:var(--bluel)}.vci.f{background:var(--pinkl)}.vci.t{background:var(--gp)}
+.vcn{font-size:18px;font-weight:700;font-family:var(--mono);line-height:1}
+.vci.m .vcn{color:var(--blue)}.vci.f .vcn{color:var(--pink)}.vci.t .vcn{color:var(--g1)}
+.vcl{font-size:10px;color:var(--txt2);margin-top:2px}
+.gbar{height:6px;border-radius:6px;overflow:hidden;display:flex;margin-bottom:10px}
+.gbm{background:var(--blue)}.gbf{background:var(--pink)}
+.moh{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid var(--border)}
+.moh:last-child{border-bottom:none}
+.moh-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.moh-nm{font-size:11px;flex:1}
+.moh-ch{font-size:10px;font-family:var(--mono);background:var(--gp);color:var(--g1);padding:2px 7px;border-radius:8px;font-weight:700}
+.strat{margin-top:10px;background:var(--golda);border-radius:10px;padding:10px 12px;
+font-size:11px;color:#3E2723;line-height:1.65;border-right:3px solid var(--goldd)}
+.strat.hm{background:var(--teall);border-color:var(--teal);color:var(--teal)}
+
+/* TEAM */
+.tm-card{background:#fff;border-radius:var(--r);border:1.5px solid var(--border);padding:14px;margin-bottom:11px;box-shadow:var(--sh)}
+.tm-card h3{font-size:13px;font-weight:700;color:var(--g1);margin-bottom:10px}
+.tl-row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--gp)}
+.tl-row:last-child{border-bottom:none}
+.tl-rank{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;font-family:var(--mono)}
+.tl-info{font-size:12px;line-height:1.65;flex:1}
+
+/* PRIORITY */
+.pri-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)}
+.pri-item:last-child{border-bottom:none}
+.prank{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;font-family:var(--mono)}
+.r1{background:var(--goldd);color:#3E2723}.r2{background:var(--gp);color:var(--g1)}
+.r3{background:var(--bluel);color:var(--blue)}.r4{background:var(--purplel);color:var(--purple)}
+.r5{background:var(--redl);color:var(--red)}
+.ptxt{font-size:12px;line-height:1.65;flex:1}
+
+/* FAMILY */
+.fm-mb{padding:10px 14px;border-bottom:1px solid var(--gp);display:flex;justify-content:space-between;align-items:center}
+.fm-mb:last-child{border-bottom:none}
+.fm-hd{background:var(--golda)}
+
+/* DATA */
+.imp-p{background:var(--gp);border-radius:var(--r-sm);padding:10px 14px;font-size:12px;display:none;color:var(--g1);margin-top:8px}
+.imp-p.on{display:block}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:11px}
+.tbl th{background:var(--g1);color:#fff;padding:7px 8px;text-align:center;font-weight:700}
+.tbl th:first-child{text-align:right}
+.tbl td{padding:6px 8px;border-bottom:1px solid var(--border);text-align:center}
+.tbl td:first-child{text-align:right;font-weight:600}
+.tbl tr:nth-child(even) td{background:#F9FBF9}
+.tbl tr.hm-r td{background:var(--teall)}
+.tbl tr.ma-r td{background:var(--gp)}
+.tbl .tot-r td{background:var(--g1);color:#fff;font-weight:700;border:none}
+.mbar{height:5px;background:#E0E0E0;border-radius:3px;overflow:hidden;margin-top:3px}
+.mfill{height:100%;border-radius:3px}
+
+/* MODALS */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:800;
+align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.ov.on{display:flex;animation:ovin .2s}
+@keyframes ovin{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:var(--r) var(--r) 0 0;padding:20px;
+width:100%;max-width:600px;max-height:90vh;overflow-y:auto;
+animation:slideup .28s cubic-bezier(.34,1.56,.64,1)}
+@keyframes slideup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mhdl{width:42px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+.mtit{font-size:17px;font-weight:700;color:var(--g1);margin-bottom:14px}
+
+/* CONFIRM */
+.cov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;align-items:center;justify-content:center}
+.cov.on{display:flex}
+.cbox{background:#fff;border-radius:var(--r);padding:26px;max-width:300px;width:90%;
+text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);
+animation:popin .25s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popin{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}
+.cico{font-size:52px;margin-bottom:10px}
+.ctit{font-size:16px;font-weight:700;margin-bottom:6px}
+.csub{font-size:12px;color:var(--txt2);margin-bottom:18px;line-height:1.7}
+.cbtns{display:flex;gap:8px}
+
+
+/* ── PRINT STYLES ── */
+@media print {
+  #pin-screen, .hdr, .tabs, #scroll > .panel:not(.on),
+  .vact, .btn, .chips, .sw, .rcount, #map-back-btn,
+  .toast, .ov, .cov { display:none !important; }
+  
+  body { background:#fff !important; font-size:12px; direction:rtl; }
+  #scroll { height:auto !important; overflow:visible !important; }
+  .panel.on { display:block !important; padding:0 !important; }
+  
+  /* Print list styles */
+  .print-section { page-break-inside:avoid; margin-bottom:16px; }
+  .print-header { text-align:center; margin-bottom:20px; border-bottom:2px solid #000; padding-bottom:10px; }
+  .print-table { width:100%; border-collapse:collapse; font-size:11px; }
+  .print-table th { background:#1B5E20; color:#fff; padding:6px 8px; border:1px solid #000; text-align:right; }
+  .print-table td { padding:5px 8px; border:1px solid #ccc; text-align:right; vertical-align:top; }
+  .print-table tr:nth-child(even) td { background:#f5f5f5; }
+  
+  /* Polling station card */
+  .ps-card-print { 
+    border:2px solid #1B5E20; border-radius:8px; padding:12px; 
+    margin:4px; display:inline-block; width:47%; vertical-align:top;
+    page-break-inside:avoid; font-size:11px;
+  }
+  .ps-card-grid { display:flex; flex-wrap:wrap; gap:6px; }
+}
+
+/* Print panel — hidden normally */
+#panel-print { }
+.print-preview-card {
+  border:2px solid var(--g1); border-radius:12px; padding:14px;
+  margin-bottom:10px; background:#fff;
+}
+.ps-slip {
+  border:2px solid var(--g1); border-radius:10px; padding:12px;
+  margin-bottom:8px; position:relative; overflow:hidden;
+}
+.ps-slip::before {
+  content:''; position:absolute; right:0; top:0; bottom:0; width:6px;
+  background:var(--g1);
+}
+.slip-header {
+  background:linear-gradient(135deg,var(--g1),var(--teal));
+  color:#fff; margin:-12px -12px 10px -12px; padding:10px 14px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(100px);
+background:rgba(27,94,32,.96);backdrop-filter:blur(10px);color:#fff;
+padding:12px 24px;border-radius:30px;font-size:13px;
+box-shadow:0 8px 28px rgba(0,0,0,.2);
+transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+z-index:9999;white-space:nowrap;max-width:92vw;text-align:center}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.toast.err{background:rgba(183,28,28,.96)}
+
+/* WIN FORMULA */
+.wf{background:linear-gradient(135deg,var(--g1),var(--teal));border-radius:var(--r);
+padding:16px;margin-bottom:11px;color:#fff}
+.wf-g{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:4px;align-items:center;text-align:center}
+.wf-n{font-size:22px;font-weight:700;font-family:var(--mono);color:#FFD54F;line-height:1}
+.wf-l{font-size:9px;opacity:.75}
+.wf-op{font-size:20px;opacity:.45}
+.wf-result{text-align:center;margin-top:12px;background:rgba(255,255,255,.12);border-radius:10px;padding:10px}
+
+@media(min-width:600px){.sg,.sg3{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.btn{min-height:44px}.btn-sm{min-height:36px}.voted-no,.voted-yes{min-height:46px;min-width:80px}}
+
+.rcount{font-size:11px;color:var(--txt2);margin-bottom:8px}
+.empty{text-align:center;padding:40px 20px;color:var(--txt2)}
+.empty em{font-size:50px;display:block;margin-bottom:10px;font-style:normal}
+
+/* PIN LOCK */
+#pin-screen{position:fixed;inset:0;background:linear-gradient(160deg,#071a09 0%,#1B5E20 50%,#2E7D32 100%);
+z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:24px}
+#pin-screen.hide{display:none}
+.pin-logo{font-size:64px;margin-bottom:8px}
+.pin-title{color:#fff;font-size:20px;font-weight:700;text-align:center;margin-bottom:4px}
+.pin-sub{color:rgba(255,255,255,.65);font-size:11px;text-align:center;margin-bottom:28px}
+.pin-dots{display:flex;gap:14px;justify-content:center;margin-bottom:24px}
+.pin-dot{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.45);transition:all .2s}
+.pin-dot.filled{background:#FFD54F;border-color:#FFD54F;transform:scale(1.15)}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;width:100%}
+.pin-btn{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);color:#fff;border-radius:14px;padding:18px;font-size:22px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;font-family:var(--mono);-webkit-tap-highlight-color:transparent;user-select:none}
+.pin-btn:active{background:rgba(255,255,255,.3);transform:scale(.94)}
+.pin-btn.del{font-size:18px;background:rgba(183,28,28,.3);border-color:rgba(183,28,28,.4)}
+.pin-btn.zero{grid-column:2}
+.pin-err{color:#FF8A80;font-size:12px;text-align:center;min-height:18px;margin-top:-8px;margin-bottom:8px}
+.role-select{display:flex;gap:10px;margin-bottom:20px;width:100%;max-width:280px}
+.role-btn{flex:1;padding:12px 8px;border-radius:12px;border:2px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);font-family:var(--ur);font-size:12px;cursor:pointer;text-align:center;transition:all .2s;font-weight:600}
+.role-btn.on{background:rgba(255,213,79,.25);border-color:#FFD54F;color:#FFD54F}
+.role-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;margin-right:8px}
+.rb-admin{background:rgba(255,213,79,.25);color:#FFD54F;border:1px solid rgba(255,213,79,.4)}
+.rb-worker{background:rgba(0,188,212,.2);color:#80DEEA;border:1px solid rgba(0,188,212,.3)}
+
+/* ANALYTICS */
+.ana-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px}
+.ana-grid3{grid-template-columns:1fr 1fr 1fr}
+.ana-card{background:#fff;border-radius:14px;border:1.5px solid var(--border);padding:12px 10px;text-align:center;box-shadow:var(--sh)}
+.ana-n{font-size:22px;font-weight:700;font-family:var(--mono);line-height:1}
+.ana-l{font-size:10px;color:var(--txt2);margin-top:3px}
+.blk-summary{background:#fff;border-radius:14px;border:1.5px solid var(--border);overflow:hidden;margin-bottom:8px;box-shadow:var(--sh)}
+.blk-s-h{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;background:var(--g1);color:#fff;padding:8px 12px;font-size:10px;font-weight:700;text-align:center;gap:4px}
+.blk-s-h span:first-child{text-align:right}
+.blk-s-r{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;padding:7px 12px;border-bottom:1px solid var(--border);font-size:11px;text-align:center;gap:4px;align-items:center}
+.blk-s-r:last-child{border-bottom:none}
+.blk-s-r span:first-child{text-align:right;font-weight:600}
+.blk-s-r.hm-r{background:var(--teall)}
+.blk-s-r.ma-r{background:var(--gp)}
+.blk-s-r.tot{background:var(--g1);color:#fff;font-weight:700}
+.mini-bar{height:4px;background:#E0E0E0;border-radius:2px;overflow:hidden;margin-top:3px}
+.mini-fill{height:100%;border-radius:2px;background:var(--g2)}
+</style>
+</head>
+<body>
+
+<!-- PIN LOCK SCREEN -->
+<div id="pin-screen">
+  <div class="pin-logo">🏆</div>
+  <div class="pin-title">CC-72 الیکشن سسٹم</div>
+  <div class="pin-sub">فیصل علی رانا — PML-N — فیصل آباد</div>
+  <div class="role-select">
+    <button class="role-btn on" id="rb-admin" onclick="selRole('admin')">👑 ایڈمن<br><small>مکمل رسائی</small></button>
+    <button class="role-btn" id="rb-worker" onclick="selRole('worker')">👷 ورکر<br><small>محدود رسائی</small></button>
+  </div>
+  <div class="pin-dots">
+    <div class="pin-dot" id="pd0"></div>
+    <div class="pin-dot" id="pd1"></div>
+    <div class="pin-dot" id="pd2"></div>
+    <div class="pin-dot" id="pd3"></div>
+  </div>
+  <div class="pin-err" id="pin-err"></div>
+  <div class="pin-pad">
+    <button class="pin-btn" onclick="pinKey('1')">1</button>
+    <button class="pin-btn" onclick="pinKey('2')">2</button>
+    <button class="pin-btn" onclick="pinKey('3')">3</button>
+    <button class="pin-btn" onclick="pinKey('4')">4</button>
+    <button class="pin-btn" onclick="pinKey('5')">5</button>
+    <button class="pin-btn" onclick="pinKey('6')">6</button>
+    <button class="pin-btn" onclick="pinKey('7')">7</button>
+    <button class="pin-btn" onclick="pinKey('8')">8</button>
+    <button class="pin-btn" onclick="pinKey('9')">9</button>
+    <button class="pin-btn del" onclick="pinDel()">&#x232B;</button>
+    <button class="pin-btn zero" onclick="pinKey('0')">0</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-top">
+    <div class="hdr-brand">
+      <div class="hdr-logo">🏆</div>
+      <div class="hdr-t">
+        <div class="hdr-title">CC-72 الیکشن سسٹم <span class="role-badge rb-admin" id="role-badge">👑 ایڈمن</span></div>
+        <div class="hdr-sub">فیصل علی رانا • PML-N • جیلانی پورہ • فیصل آباد</div>
+      </div>
+    </div>
+    <span id="online-ind" title="آن لائن" style="width:10px;height:10px;border-radius:50%;background:#4CAF50;display:inline-block;flex-shrink:0;border:2px solid rgba(255,255,255,.4);margin-left:4px"></span>
+    <button onclick="lockApp()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;color:#fff;padding:6px 10px;font-size:16px;cursor:pointer" title="لاک کریں">🔒</button>
+  </div>
+  <div class="hdr-kpis">
+    <div class="kpi gd"><div class="kpi-n" id="hk-tot">0</div><div class="kpi-l">کل ووٹرز</div></div>
+    <div class="kpi"><div class="kpi-n" id="hk-conf" style="color:#FFD54F">0</div><div class="kpi-l">✅ پکے</div></div>
+    <div class="kpi tl"><div class="kpi-n" id="hk-voted">0</div><div class="kpi-l">🗳️ ووٹ دیا</div></div>
+    <div class="kpi"><div class="kpi-n" id="hk-fam">0</div><div class="kpi-l">🏠 خاندان</div></div>
+    <div class="kpi rd"><div class="kpi-n" id="hk-pct">0%</div><div class="kpi-l">🎯 ہدف</div></div>
+  </div>
+</header>
+
+<!-- TABS -->
+<nav class="tabs">
+  <button class="tab on" onclick="gp('dash')"><em>📊</em>ڈیش</button>
+  <button class="tab" onclick="gp('search')"><em>🔍</em>تلاش</button>
+  <button class="tab" onclick="gp('fams')"><em>🏘️</em>خاندان</button>
+  <button class="tab" onclick="gp('blocks')"><em>📍</em>بلاکس</button>
+  <button class="tab" onclick="gp('team')"><em>👥</em>ٹیم</button>
+  <button class="tab" onclick="gp('add')"><em>➕</em>شامل</button>
+  <button class="tab" onclick="gp('data')"><em>💾</em>ڈیٹا</button>
+  <button class="tab" onclick="gp('analytics')"><em>📈</em>تجزیہ</button>
+</nav>
+
+<!-- SCROLL AREA -->
+<div id="scroll">
+
+<!-- DASHBOARD PANEL -->
+<div class="panel on" id="panel-dash">
+  <!-- Polling Day Mode Button -->
+  <div style="margin-bottom:11px">
+    <button id="polling-day-btn" onclick="togglePollingDay()"
+      class="btn btn-p btn-full btn-lg"
+      style="font-size:15px">
+      🗳️ پولنگ ڈے موڈ آن کریں
+    </button>
+    <div style="font-size:10px;color:var(--txt2);text-align:center;margin-top:5px">
+      پولنگ ڈے پر آن کریں — صرف ووٹ مارکنگ رہے گی، باقی سب بند
+    </div>
+  </div>
+
+  <div class="th">
+    <div class="th-lbl">🎯 جیتنے کا ہدف</div>
+    <div class="th-nums"><div class="th-big" id="d-conf">0</div><div class="th-of">/ 1,883 ووٹ</div></div>
+    <div class="th-bar"><div class="th-fill" id="d-bar" style="width:0%"></div></div>
+    <div class="th-foot"><span id="d-pct">0% مکمل</span><span>کل ووٹرز: 10,341</span></div>
+  </div>
+  <div class="sg">
+    <div class="sc"><div class="sn" style="color:var(--gold)" id="d-may">0</div><div class="sl">❓ غیر فیصلہ</div></div>
+    <div class="sc"><div class="sn" style="color:var(--redm)" id="d-ag">0</div><div class="sl">❌ مخالف</div></div>
+    <div class="sc"><div class="sn" style="color:#9E9E9E" id="d-unk">0</div><div class="sl">🔲 نامعلوم</div></div>
+    <div class="sc"><div class="sn" style="color:var(--teal)" id="d-vot">0</div><div class="sl">🗳️ ووٹ دیا</div></div>
+  </div>
+  <div class="card">
+    <div class="card-h">📡 Supporter Sentiment</div>
+    <div class="pie-wrap">
+      <svg id="pie" width="110" height="110" viewBox="0 0 110 110" style="flex-shrink:0"></svg>
+      <div class="pie-leg" id="pleg"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h">👥 صنفی تقسیم</div>
+    <div class="sg" style="margin-bottom:10px">
+      <div class="sc"><div class="sn" style="color:var(--blue)" id="d-m">0</div><div class="sl">👨 مرد</div></div>
+      <div class="sc"><div class="sn" style="color:var(--pink)" id="d-f">0</div><div class="sl">👩 خواتین</div></div>
+    </div>
+    <div id="gbars"></div>
+  </div>
+  <div class="card">
+    <div class="card-h">📍 بلاک وار حمایت (لائیو)</div>
+    <div id="blive"></div>
+  </div>
+  <!-- Quick Access -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px">
+    <button class="btn btn-teal btn-full" onclick="gp('map')" style="font-size:12px;padding:12px 8px">
+      <em style="font-style:normal;font-size:20px;display:block;margin-bottom:4px">🗺️</em>نقشہ
+    </button>
+    <button class="btn btn-s btn-full" onclick="gp('print')" style="font-size:12px;padding:12px 8px">
+      <em style="font-style:normal;font-size:20px;display:block;margin-bottom:4px">🖨️</em>پرنٹ
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-h">🗳️ پولنگ ڈے کاؤنٹر</div>
+    <div class="sg" style="margin:0">
+      <div class="sc"><div class="sn" style="color:var(--g1)" id="d-v2">0</div><div class="sl">✅ ووٹ دے چکے</div></div>
+      <div class="sc"><div class="sn" style="color:var(--redm)" id="d-pnd">0</div><div class="sl">⏳ پکے — باقی</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH PANEL -->
+<div class="panel" id="panel-search">
+  <div class="sw"><span class="si">🔍</span>
+    <input id="q" placeholder="نام، CNIC کے آخری 4 ہندسے، گھر نمبر، فون..." oninput="onQ()" autocomplete="off" spellcheck="false">
+  </div>
+  <div class="chips" id="sc">
+    <button class="chip on" data-s="all">سب</button>
+    <button class="chip" data-s="confirmed">✅ پکے</button>
+    <button class="chip" data-s="maybe">❓ شاید</button>
+    <button class="chip" data-s="against">❌ مخالف</button>
+    <button class="chip" data-s="unknown">🔲 نامعلوم</button>
+  </div>
+  <div class="chips" id="bc">
+    <button class="chip on" data-b="all">تمام</button>
+    <button class="chip" data-b="202">202⭐</button>
+    <button class="chip" data-b="203">203⭐</button>
+    <button class="chip" data-b="204">204</button>
+    <button class="chip" data-b="206">206</button>
+    <button class="chip" data-b="101">101🏠</button>
+    <button class="chip" data-b="205">205🏠</button>
+    <button class="chip" data-b="201">201</button>
+    <button class="chip" data-b="103">103</button>
+  </div>
+  <div class="rcount" id="rc"></div>
+  <div id="vlc" style="height:calc(100vh - 340px);min-height:260px">
+    <div id="vli">
+      <div id="vb"></div><div id="vr-rows"></div><div id="va"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FAMILIES PANEL -->
+<div class="panel" id="panel-fams">
+  <div style="background:var(--golda);border-radius:var(--r-sm);padding:10px 14px;margin-bottom:10px;font-size:12px;color:#3E2723;border-right:3px solid var(--goldd)">
+    💡 ایک گھر نمبر + بلاک = خاندان۔ سب سے بڑا مرد = 👑 سربراہ۔ ایک ٹچ سے پورا خاندان پکا کریں۔
+  </div>
+  <div class="sw"><span class="si">🏘️</span>
+    <input id="fq" placeholder="گھر نمبر، نام، یا بلاک..." oninput="rFams()" autocomplete="off">
+  </div>
+  <div id="flist"></div>
+</div>
+
+<!-- BLOCKS PANEL -->
+<div class="panel" id="panel-blocks">
+  <div class="wf">
+    <div style="font-size:10px;opacity:.75;margin-bottom:8px">🎯 جیتنے کا فارمولا</div>
+    <div class="wf-g">
+      <div><div class="wf-n">10,341</div><div class="wf-l">کل ووٹرز</div></div>
+      <div class="wf-op">&#215;</div>
+      <div><div class="wf-n">52%</div><div class="wf-l">ٹرن آؤٹ</div></div>
+      <div class="wf-op">&#215;</div>
+      <div><div class="wf-n">35%</div><div class="wf-l">جیت شرح</div></div>
+    </div>
+    <div class="wf-result">
+      <div style="font-size:9px;opacity:.75;margin-bottom:3px">= ہدف</div>
+      <div style="font-size:32px;font-weight:700;font-family:var(--mono);color:#FFD54F">1,883 ووٹ</div>
+    </div>
+  </div>
+  <div class="card" style="overflow-x:auto">
+    <div class="card-h">📊 تمام 10 بلاکس</div>
+    <table class="tbl">
+      <thead><tr><th>بلاک</th><th>مرد</th><th>خواتین</th><th>کل</th><th>%</th></tr></thead>
+      <tbody>
+        <tr class="ma-r"><td>202 — فتح آباد راجہ صابر ⭐</td><td>1,136</td><td>1,068</td><td><b>2,204</b></td><td>21.3%<div class="mbar"><div class="mfill" style="width:100%;background:var(--g2)"></div></div></td></tr>
+        <tr class="ma-r"><td>203 — فتح آباد گلی 1,3,4,6 ⭐</td><td>732</td><td>734</td><td><b>1,466</b></td><td>14.2%<div class="mbar"><div class="mfill" style="width:66%;background:var(--g2)"></div></div></td></tr>
+        <tr class="hm-r"><td>101 — جیلانی پورہ 🏠</td><td>679</td><td>660</td><td><b>1,339</b></td><td>12.9%<div class="mbar"><div class="mfill" style="width:61%;background:var(--teal)"></div></div></td></tr>
+        <tr class="hm-r"><td>205 — جیلانی پورہ مسجد 🏠</td><td>619</td><td>573</td><td><b>1,192</b></td><td>11.5%<div class="mbar"><div class="mfill" style="width:54%;background:var(--teal)"></div></div></td></tr>
+        <tr><td>201 — جناح آباد</td><td>601</td><td>538</td><td><b>1,139</b></td><td>11.0%</td></tr>
+        <tr class="ma-r"><td>204 — فتح آباد کھووالی ⭐</td><td>403</td><td>360</td><td><b>763</b></td><td>7.4%</td></tr>
+        <tr class="ma-r"><td>206 — فتح آباد صابر+کھووالی ⭐</td><td>373</td><td>330</td><td><b>703</b></td><td>6.8%</td></tr>
+        <tr><td>103 — چنیوٹیاں</td><td>467</td><td>387</td><td><b>854</b></td><td>8.3%</td></tr>
+        <tr><td>102 — مسر حاکم دین</td><td>292</td><td>233</td><td><b>525</b></td><td>5.1%</td></tr>
+        <tr><td>104 — مسر حاکم دین (حسینی)</td><td>86</td><td>70</td><td><b>156</b></td><td>1.5%</td></tr>
+        <tr class="tot-r"><td>🏆 مجموعی</td><td>5,388</td><td>4,953</td><td>10,341</td><td>100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="bkcards"></div>
+  <div class="card">
+    <div class="card-h">🎯 ترجیحی حکمت عملی</div>
+    <div class="pri-item"><div class="prank r1">1</div><div class="ptxt"><strong>101+205 — جیلانی پورہ (2,531)</strong><br>امیدوار کا گھر — 95% ہدف = 2,404 ووٹ۔ شوکت علی رانا براہ راست</div></div>
+    <div class="pri-item"><div class="prank r2">2</div><div class="ptxt"><strong>202 — فتح آباد راجہ صابر (2,204)</strong><br>سب سے بڑا بلاک — 40% ہدف = 882 ووٹ</div></div>
+    <div class="pri-item"><div class="prank r3">3</div><div class="ptxt"><strong>203 — فتح آباد گلی 1,3,4,6 (1,466)</strong><br>خواتین اکثریتی — 35% ہدف = 513 ووٹ</div></div>
+    <div class="pri-item"><div class="prank r4">4</div><div class="ptxt"><strong>201 — جناح آباد (1,139)</strong><br>PML-N کا روایتی علاقہ — 40% ہدف = 456 ووٹ</div></div>
+    <div class="pri-item"><div class="prank r5">5</div><div class="ptxt"><strong>206+204+103+102+104 (3,001)</strong><br>باقی بلاکس — 30% ہدف = 900+ ووٹ</div></div>
+  </div>
+</div>
+
+<!-- TEAM PANEL -->
+<div class="panel" id="panel-team">
+  <div class="tm-card">
+    <h3>🏛️ قیادت و کمانڈ</h3>
+    <div class="tl-row"><div class="tl-rank" style="background:var(--goldd);color:#3E2723">★</div><div class="tl-info"><strong>فیصل علی رانا</strong> — امیدوار، CC-72 فتح آباد غربی، PML-N</div></div>
+    <div class="tl-row"><div class="tl-rank" style="background:var(--teall);color:var(--teal)">چ</div><div class="tl-info"><strong>شوکت علی رانا</strong> — چاچا جان / سینئر رہنما<br>جیلانی پورہ — بلاکس 101+205 ذمہ</div></div>
+    <div class="tl-row"><div class="tl-rank" style="background:var(--gp);color:var(--g1)">م</div><div class="tl-info"><strong>ظفر قیوم</strong> — کمپین منیجر<br>مکمل مہم نگرانی • ڈیٹا • ٹیم کوآرڈینیشن</div></div>
+  </div>
+  <div class="tm-card">
+    <h3>📋 فیلڈ ٹیم ڈھانچہ</h3>
+    <div class="tl-row"><div class="tl-rank" style="background:var(--gp);color:var(--g1)">A</div><div class="tl-info"><strong>محلہ انچارج — 3 سے 4 افراد</strong><br>ہر علاقے کا انچارج — روزانہ رات 9 بجے رپورٹ</div></div>
+    <div class="tl-row"><div class="tl-rank" style="background:var(--bluel);color:var(--blue)">B</div><div class="tl-info"><strong>بلاک کیپٹن — 10 افراد</strong><br>ہر بلاک کا ذمہ دار — گھر گھر رابطہ</div></div>
+    <div class="tl-row"><div class="tl-rank" style="background:var(--purplel);color:var(--purple)">C</div><div class="tl-info"><strong>فیلڈ ورکرز — 65 سے 100 افراد</strong><br>گلی گلی ووٹر رابطہ — ڈیٹا اپ ڈیٹ</div></div>
+    <div class="tl-row"><div class="tl-rank" style="background:var(--redl);color:var(--red)">D</div><div class="tl-info"><strong>پولنگ ایجنٹ — 20+ افراد</strong><br>الیکشن والے دن — ہر پولنگ اسٹیشن پر موجود</div></div>
+  </div>
+  <div class="tm-card">
+    <h3>🗳️ پولنگ اسٹیشن</h3>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="background:var(--gp);border-radius:10px;padding:10px 14px;display:flex;gap:10px;align-items:center"><span style="font-size:22px">🏫</span><div style="font-size:12px"><strong style="color:var(--g1)">GPS فتح آباد غربی</strong><br><span style="color:var(--txt2)">بلاک 202, 203, 204, 206 — 5,136 ووٹرز</span></div></div>
+      <div style="background:var(--teall);border-radius:10px;padding:10px 14px;display:flex;gap:10px;align-items:center"><span style="font-size:22px">🏫</span><div style="font-size:12px"><strong style="color:var(--teal)">GHS جیلانی پورہ</strong><br><span style="color:var(--txt2)">بلاک 101, 205 — 2,531 ووٹرز</span></div></div>
+      <div style="background:var(--bluel);border-radius:10px;padding:10px 14px;display:flex;gap:10px;align-items:center"><span style="font-size:22px">🏫</span><div style="font-size:12px"><strong style="color:var(--blue)">گورنمنٹ اسکول جناح آباد</strong><br><span style="color:var(--txt2)">بلاک 201, 103, 102, 104 — 2,674 ووٹرز</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT PANEL -->
+<div class="panel" id="panel-add">
+  <div class="card">
+    <div class="card-h" id="f-title">➕ نیا ووٹر شامل کریں</div>
+    <div class="fg">
+      <div class="fg fg2">
+        <div class="fl"><label>👤 نام <span class="req">*</span></label><input id="f-nm" placeholder="پورا نام"></div>
+        <div class="fl"><label>👨 والد / شوہر</label><input id="f-dd" placeholder="والد یا شوہر کا نام"></div>
+      </div>
+      <div class="fl">
+        <label>🪪 CNIC</label>
+        <input type="tel" id="f-cn" placeholder="33100-1234567-8" maxlength="15" oninput="fmtC(this)">
+        <span class="hint">فارمیٹ: 33100-1234567-8 (ڈپلیکیٹ خودکار چیک)</span>
+      </div>
+      <div class="fg fg2">
+        <div class="fl"><label>🏠 گھر نمبر <span class="req">*</span></label><input id="f-hs" placeholder="P-83/21"></div>
+        <div class="fl"><label>📍 بلاک <span class="req">*</span></label>
+          <select id="f-bl">
+            <option value="">چنیں</option>
+            <option value="202">202 — فتح آباد (راجہ صابر)</option>
+            <option value="203">203 — فتح آباد (گلی 1,3,4)</option>
+            <option value="204">204 — فتح آباد (کھووالی)</option>
+            <option value="206">206 — فتح آباد (صابر+کھووالی)</option>
+            <option value="101">101 — جیلانی پورہ 🏠</option>
+            <option value="205">205 — جیلانی پورہ (مسجد) 🏠</option>
+            <option value="201">201 — جناح آباد</option>
+            <option value="103">103 — چنیوٹیاں</option>
+            <option value="102">102 — مسر حاکم دین</option>
+            <option value="104">104 — مسر حاکم دین (حسینی)</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg fg2">
+        <div class="fl"><label>📱 فون</label><input type="tel" id="f-ph" placeholder="03XX-XXXXXXX"></div>
+        <div class="fl"><label>🎂 عمر</label><input type="number" id="f-ag" min="18" max="110" placeholder="عمر"></div>
+      </div>
+      <div class="fg fg2">
+        <div class="fl"><label>🚻 جنس</label>
+          <select id="f-gn"><option value="male">مرد</option><option value="female">خاتون</option></select>
+        </div>
+        <div class="fl"><label>🗳️ پولنگ اسٹیشن</label>
+          <select id="f-ps">
+            <option value="">چنیں</option>
+            <option value="GPS فتح آباد غربی">GPS فتح آباد</option>
+            <option value="GHS جیلانی پورہ">GHS جیلانی پورہ</option>
+            <option value="گورنمنٹ اسکول جناح آباد">اسکول جناح آباد</option>
+            <option value="دیگر">دیگر</option>
+          </select>
+        </div>
+      </div>
+      <div class="fl"><label>🤝 حمایت <span class="req">*</span></label>
+        <select id="f-st">
+          <option value="unknown">🔲 نامعلوم</option>
+          <option value="confirmed">✅ پکا حامی</option>
+          <option value="maybe">❓ غیر فیصلہ</option>
+          <option value="against">❌ مخالف</option>
+        </select>
+      </div>
+      <div class="fl"><label>📝 فیلڈ نوٹ</label>
+        <textarea id="f-nt" rows="2" placeholder="مسئلہ، مطالبہ، خاص بات، اگلی ملاقات..."></textarea>
+      </div>
+      <input type="hidden" id="f-id">
+      <button class="btn btn-p btn-full btn-lg" onclick="sv()">💾 محفوظ کریں</button>
+      <button class="btn btn-s btn-full" onclick="cancelE()" id="btn-cancel" style="display:none;margin-top:8px">✕ منسوخ کریں</button>
+    </div>
+  </div>
+</div>
+
+<!-- DATA PANEL -->
+<div class="panel" id="panel-data">
+  <div class="card"><div class="card-h">📊 مکمل اعداد و شمار</div><div id="dstats"></div></div>
+  <div class="card">
+    <div class="card-h">📥 ڈیٹا درآمد کریں</div>
+    <div class="fg">
+      <button class="btn btn-p btn-full" onclick="ti('j')">📥 JSON بیک اپ لوڈ کریں</button>
+      <button class="btn btn-teal btn-full" onclick="ti('c')">📊 CSV / Excel لوڈ کریں</button>
+    </div>
+    <div class="imp-p" id="imp-p">⏳ لوڈ ہو رہا ہے...</div>
+    <input type="file" id="ij" accept=".json" style="display:none" onchange="doJ(event)">
+    <input type="file" id="ic" accept=".csv,.txt" style="display:none" onchange="doC(event)">
+  </div>
+  <div class="card">
+    <div class="card-h">📤 ڈیٹا برآمد کریں</div>
+    <div class="fg">
+      <button class="btn btn-p btn-full" onclick="expC()">📊 Excel / CSV ڈاؤنلوڈ</button>
+      <button class="btn btn-y btn-full" onclick="expJ()">💾 JSON بیک اپ ڈاؤنلوڈ</button>
+    </div>
+  </div>
+
+  <!-- Google Sheets Sync Section -->
+  <div class="card" style="border-color:var(--blue)">
+    <div class="card-h" style="color:var(--blue)">☁️ کلاؤڈ سنک — Google Sheets</div>
+    <div style="font-size:12px;color:var(--txt2);margin-bottom:12px;line-height:1.8">
+      تمام workers کا data ایک جگہ — real-time sync
+    </div>
+    <div class="fg">
+      <div class="fl">
+        <label style="color:var(--blue)">🔗 Google Script URL</label>
+        <input id="gs-url" type="url" placeholder="https://script.google.com/macros/s/..." 
+               style="font-size:11px;direction:ltr"
+               value="" oninput="saveGsUrl()">
+        <span class="hint">ایک بار paste کریں — محفوظ ہو جائے گا</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-p" onclick="syncToSheets()" style="flex:1">
+          ☁️ ابھی sync کریں
+        </button>
+        <button class="btn btn-s" onclick="showSheetsSetup()" style="flex:1">
+          📖 Setup guide
+        </button>
+      </div>
+      <div id="sync-status" style="font-size:11px;color:var(--txt2);min-height:20px"></div>
+    </div>
+  </div>
+
+  <!-- Sheets Setup Guide Modal -->
+  <div class="ov" id="sheets-ov">
+    <div class="modal">
+      <div class="mhdl"></div>
+      <div class="mtit" style="color:var(--blue)">☁️ Google Sheets Setup</div>
+      <div style="font-size:12px;line-height:2;color:var(--txt2)">
+        <div style="background:var(--bluel);border-radius:10px;padding:12px 14px;margin-bottom:12px">
+          <strong style="color:var(--blue)">ایک بار کا کام — 5 منٹ:</strong>
+        </div>
+        <div class="pri-item">
+          <div class="prank r1">1</div>
+          <div class="ptxt">
+            <strong>Google Sheets کھولیں</strong><br>
+            sheets.google.com پر نئی sheet بنائیں — نام: CC72 Voters
+          </div>
+        </div>
+        <div class="pri-item">
+          <div class="prank r2">2</div>
+          <div class="ptxt">
+            <strong>Extensions → Apps Script کھولیں</strong><br>
+            یہ code paste کریں اور Save کریں
+          </div>
+        </div>
+        <div style="background:#1a1a1a;color:#00ff41;border-radius:8px;padding:10px;font-family:monospace;font-size:10px;margin:8px 0;direction:ltr;overflow-x:auto">
+function doPost(e){<br>
+&nbsp;&nbsp;var sheet=SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();<br>
+&nbsp;&nbsp;var data=JSON.parse(e.postData.contents);<br>
+&nbsp;&nbsp;sheet.clearContents();<br>
+&nbsp;&nbsp;var headers=['نام','والد','CNIC','گھر','بلاک','جنس','عمر','فون','PS','حمایت','ووٹ','نوٹ'];<br>
+&nbsp;&nbsp;sheet.appendRow(headers);<br>
+&nbsp;&nbsp;data.voters.forEach(function(v){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sheet.appendRow([v.name,v.dad,v.cnic,v.house,v.block,v.gender,v.age,v.phone,v.ps,v.status,v.voted?'ہاں':'نہیں',v.note]);<br>
+&nbsp;&nbsp;});<br>
+&nbsp;&nbsp;return ContentService.createTextOutput(JSON.stringify({ok:true,total:data.voters.length})).setMimeType(ContentService.MimeType.JSON);<br>
+}
+        </div>
+        <div class="pri-item">
+          <div class="prank r3">3</div>
+          <div class="ptxt">
+            <strong>Deploy → New Deployment</strong><br>
+            Type: Web App | Execute as: Me | Access: Anyone<br>
+            Deploy کریں اور URL copy کریں
+          </div>
+        </div>
+        <div class="pri-item">
+          <div class="prank r4">4</div>
+          <div class="ptxt">
+            <strong>URL اوپر paste کریں</strong><br>
+            بس — sync تیار ہے!
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-p btn-full" style="margin-top:12px" onclick="cm('sheets-ov')">سمجھ گیا ✅</button>
+    </div>
+  </div>
+
+
+  <!-- Google Drive Direct Backup -->
+  <div class="card" style="border-color:#4285F4">
+    <div class="card-h" style="color:#4285F4">☁️ Google Drive بیک اپ</div>
+    <div style="font-size:12px;color:var(--txt2);margin-bottom:12px;line-height:1.8">
+      ایک کلک — ڈیٹا براہ راست Google Drive میں محفوظ
+    </div>
+    <div class="fg">
+      <div id="gdrive-auth-area">
+        <button class="btn btn-full" onclick="gdriveSignIn()"
+          style="background:#4285F4;color:#fff;font-size:14px;padding:14px">
+          🔑 Google سے Connect کریں
+        </button>
+      </div>
+      <div id="gdrive-backup-area" style="display:none">
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-full" onclick="backupToDrive()"
+            style="background:#34A853;color:#fff;font-size:13px;flex:2">
+            ☁️ ابھی بیک اپ لیں
+          </button>
+          <button class="btn" onclick="gdriveSignOut()"
+            style="background:var(--border);color:var(--txt2);font-size:11px;flex:1">
+            لاگ آؤٹ
+          </button>
+        </div>
+        <div id="gdrive-user" style="font-size:11px;color:var(--g2);text-align:center;margin-top:4px"></div>
+      </div>
+      <div id="gdrive-status" style="font-size:11px;color:var(--txt2);min-height:18px;text-align:center;margin-top:6px"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h" style="color:var(--redm)">⚠️ خطرناک زون</div>
+    <button class="btn btn-d btn-full" onclick="clrAll()">🗑️ تمام ڈیٹا مٹائیں</button>
+  </div>
+</div>
+
+<!-- ANALYTICS PANEL -->
+<div class="panel" id="panel-analytics">
+  <div class="card">
+    <div class="card-h">📊 مکمل اعداد و شمار — لائیو</div>
+    <div class="ana-grid" id="ana-top"></div>
+  </div>
+  <div class="card">
+    <div class="card-h">📍 بلاک وار تفصیل — ECP بمقابلہ درآمد</div>
+    <div class="blk-summary">
+      <div class="blk-s-h">
+        <span>بلاک / علاقہ</span>
+        <span>ECP کل</span>
+        <span>درآمد</span>
+        <span>✅ پکے</span>
+        <span>🗳️ ووٹ</span>
+      </div>
+      <div id="blk-ana-rows"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h">👥 صنفی تجزیہ — بلاک وار</div>
+    <div id="gender-ana"></div>
+  </div>
+  <div class="card">
+    <div class="card-h">🎯 حمایت کا خلاصہ</div>
+    <div id="support-ana"></div>
+  </div>
+  <div class="card">
+    <div class="card-h">📅 روزانہ ترقی</div>
+    <div id="daily-ana"></div>
+  </div>
+</div>
+
+
+
+<!-- MAP PANEL -->
+<div class="panel" id="panel-map">
+
+  <!-- Polling Stations Cards -->
+  <div class="card">
+    <div class="card-h">🏫 پولنگ اسٹیشن — لائیو اعداد</div>
+    <div id="ps-cards"></div>
+  </div>
+
+  <!-- Interactive Map — OpenStreetMap via iframe (always works) -->
+  <div class="card" style="padding:10px">
+    <div class="card-h">🗺️ CC-72 فتح آباد غربی — نقشہ</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+      <a class="btn btn-sm btn-p" href="https://www.google.com/maps/@31.4285,73.0815,16z" target="_blank">📍 فتح آباد</a>
+      <a class="btn btn-sm btn-teal" href="https://www.google.com/maps/@31.4318,73.0798,16z" target="_blank">🏠 جیلانی پورہ</a>
+      <a class="btn btn-sm btn-s" href="https://www.google.com/maps/@31.4255,73.0840,16z" target="_blank">🏫 جناح آباد</a>
+    </div>
+    <iframe
+      src="https://www.openstreetmap.org/export/embed.html?bbox=73.0750%2C31.4200%2C73.0890%2C31.4360&amp;layer=mapnik&amp;marker=31.4285%2C73.0815"
+      style="width:100%;height:380px;border:2px solid var(--border);border-radius:12px;display:block"
+      allowfullscreen
+      loading="lazy"
+      title="CC-72 Map">
+    </iframe>
+    <div style="margin-top:8px;font-size:11px;color:var(--txt2);text-align:center">
+      نقشہ لوڈ نہ ہو تو انٹرنیٹ چیک کریں — <a href="https://www.openstreetmap.org/?mlat=31.4285&mlon=73.0815#map=16/31.4285/73.0815" target="_blank" style="color:var(--g1)">براہ راست کھولیں</a>
+    </div>
+  </div>
+
+  <!-- Directions to each PS -->
+  <div class="card">
+    <div class="card-h">🧭 پولنگ اسٹیشن تک راستہ</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <a href="https://www.google.com/maps/dir/?api=1&destination=31.4285,73.0815&travelmode=driving" target="_blank"
+         style="background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;border-radius:12px;padding:12px 16px;text-decoration:none;display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-weight:700;font-size:13px">GPS فتح آباد غربی</div><div style="font-size:11px;opacity:.85">بلاک 202، 203، 204، 206 — 5,136 ووٹرز</div></div>
+        <span style="font-size:22px">🧭</span>
+      </a>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=31.4318,73.0798&travelmode=driving" target="_blank"
+         style="background:linear-gradient(135deg,var(--teal),var(--tealm));color:#fff;border-radius:12px;padding:12px 16px;text-decoration:none;display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-weight:700;font-size:13px">GHS جیلانی پورہ</div><div style="font-size:11px;opacity:.85">بلاک 101، 205 — 2,531 ووٹرز</div></div>
+        <span style="font-size:22px">🧭</span>
+      </a>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=31.4255,73.0840&travelmode=driving" target="_blank"
+         style="background:linear-gradient(135deg,#1565C0,#1976D2);color:#fff;border-radius:12px;padding:12px 16px;text-decoration:none;display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-weight:700;font-size:13px">گورنمنٹ اسکول جناح آباد</div><div style="font-size:11px;opacity:.85">بلاک 201، 103، 102، 104 — 2,674 ووٹرز</div></div>
+        <span style="font-size:22px">🧭</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Tip card -->
+  <div class="card" style="background:var(--golda);border-color:var(--goldd)">
+    <div style="font-size:11px;color:#3E2723;line-height:1.9">
+      <strong>📍 exact location save karne ka tarika:</strong><br>
+      1. Google Maps kholen — school dhoonden<br>
+      2. Pin pe tap karen — coordinates aayenge<br>
+      3. PS_DATA mein lat/lng update karen
+    </div>
+  </div>
+
+</div>
+
+<!-- PRINT PANEL -->
+<div class="panel" id="panel-print">
+
+  <!-- Section 1: Polling Station Wise List -->
+  <div class="card">
+    <div class="card-h">🖨️ پولنگ اسٹیشن وار فہرست</div>
+    <div style="font-size:12px;color:var(--txt2);margin-bottom:12px">
+      ہر پولنگ اسٹیشن کی مکمل ووٹر فہرست — پرنٹ کے لیے تیار
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+      <button class="btn btn-p btn-full" onclick="printPSList('GPS فتح آباد غربی')">
+        🖨️ GPS فتح آباد غربی — بلاک 202، 203، 204، 206
+      </button>
+      <button class="btn btn-teal btn-full" onclick="printPSList('GHS جیلانی پورہ')">
+        🖨️ GHS جیلانی پورہ — بلاک 101، 205
+      </button>
+      <button class="btn btn-s btn-full" onclick="printPSList('گورنمنٹ اسکول جناح آباد')">
+        🖨️ گورنمنٹ اسکول جناح آباد — بلاک 201، 103، 102، 104
+      </button>
+      <button class="btn btn-y btn-full" onclick="printPSList('all')">
+        🖨️ تمام ووٹرز — مکمل فہرست
+      </button>
+    </div>
+    <div style="background:var(--golda);border-radius:10px;padding:10px 14px;font-size:11px;color:#3E2723">
+      💡 صرف ✅ پکے حامی پرنٹ کریں:
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+        <button class="btn btn-sm btn-p" onclick="printPSList('GPS فتح آباد غربی','confirmed')">GPS — پکے</button>
+        <button class="btn btn-sm btn-teal" onclick="printPSList('GHS جیلانی پورہ','confirmed')">GHS — پکے</button>
+        <button class="btn btn-sm btn-s" onclick="printPSList('گورنمنٹ اسکول جناح آباد','confirmed')">جناح — پکے</button>
+        <button class="btn btn-sm btn-y" onclick="printPSList('all','confirmed')">سب — پکے</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Polling Station Cards (Slips) -->
+  <div class="card">
+    <div class="card-h">🪪 پولنگ اسٹیشن کارڈ (سلپ)</div>
+    <div style="font-size:12px;color:var(--txt2);margin-bottom:12px">
+      ہر ووٹر کو دینے کے لیے انفرادی کارڈ — 4 کارڈ فی صفحہ
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+      <button class="btn btn-p btn-full" onclick="printSlips('GPS فتح آباد غربی')">
+        🪪 GPS فتح آباد — کارڈز پرنٹ کریں
+      </button>
+      <button class="btn btn-teal btn-full" onclick="printSlips('GHS جیلانی پورہ')">
+        🪪 GHS جیلانی پورہ — کارڈز پرنٹ کریں
+      </button>
+      <button class="btn btn-s btn-full" onclick="printSlips('گورنمنٹ اسکول جناح آباد')">
+        🪪 جناح آباد اسکول — کارڈز پرنٹ کریں
+      </button>
+      <button class="btn btn-y btn-full" onclick="printSlips('all')">
+        🪪 تمام ووٹرز کے کارڈز
+      </button>
+    </div>
+    <div style="background:var(--bluel);border-radius:10px;padding:10px 14px;font-size:11px;color:var(--blue)">
+      📌 کارڈ میں شامل ہے: نام، والد، CNIC، پولنگ اسٹیشن، سیریل نمبر، بلاک، فیصل علی رانا
+    </div>
+  </div>
+
+  <!-- Preview area -->
+  <div class="card" id="print-preview-area" style="display:none">
+    <div class="card-h" id="print-preview-title">پیش نظارہ</div>
+    <div style="margin-bottom:10px;display:flex;gap:8px">
+      <button class="btn btn-p" onclick="doPrint()">🖨️ پرنٹ کریں</button>
+      <button class="btn btn-s" onclick="document.getElementById('print-preview-area').style.display='none'">✕ بند کریں</button>
+    </div>
+    <div id="print-preview-content"></div>
+  </div>
+
+</div>
+
+</div><!-- /scroll -->
+
+<!-- MODALS -->
+<div class="ov" id="fam-ov">
+  <div class="modal">
+    <div class="mhdl"></div>
+    <div class="mtit" id="fam-t">🏠 خاندان</div>
+    <div id="fam-b"></div>
+    <button class="btn btn-s btn-full" style="margin-top:12px" onclick="cm('fam-ov')">بند کریں</button>
+  </div>
+</div>
+
+<div class="cov" id="vcov">
+  <div class="cbox">
+    <div class="cico">🗳️</div>
+    <div class="ctit" id="vc-t">ووٹ کی تصدیق</div>
+    <div class="csub" id="vc-s">کیا ووٹ مارک کریں؟</div>
+    <div class="cbtns">
+      <button class="btn btn-s" style="flex:1" onclick="cm('vcov')">نہیں</button>
+      <button class="btn btn-p" style="flex:1" id="vc-ok">ہاں ✅</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════════
+var SK = 'cc72_v4';
+var TARGET = 1883;
+var ROW_H = 168;
+var BUF = 5;
+
+var BLKN = {
+  '202':'فتح آباد (راجہ صابر)',
+  '203':'فتح آباد (گلی 1,3,4,6)',
+  '204':'فتح آباد (کھووالی)',
+  '206':'فتح آباد (صابر+کھووالی)',
+  '101':'جیلانی پورہ 🏠',
+  '205':'جیلانی پورہ (مسجد) 🏠',
+  '201':'جناح آباد',
+  '103':'چنیوٹیاں',
+  '102':'مسر حاکم دین',
+  '104':'مسر حاکم دین (حسینی)'
+};
+
+var HOME_BLOCKS = ['101','205'];
+var ACT_BLOCKS  = ['202','203','204','206'];
+
+function isHome(b){ return HOME_BLOCKS.indexOf(b) >= 0; }
+function isAct(b){  return ACT_BLOCKS.indexOf(b)  >= 0; }
+
+var BKDATA = [
+  {code:'202',men:1136,women:1068,tot:2204,type:'ma',nm:'فتح آباد — راجہ صابر والی گلیاں',
+   mohs:[['گلی 1 تا 6 راجہ صابر','82 صفحے'],['مکان P-228 علاقہ','مرکزی حصہ'],['فتح آباد غربی سرکل 2','مخلوط']],
+   ps:'GPS فتح آباد غربی',tag:'⭐ سب سے بڑا',
+   strat:'سب سے بڑا بلاک (21.3%)۔ راجہ صابر خاندان سے براہ راست ربط ضروری۔ 40% ہدف = 882 ووٹ۔'},
+  {code:'203',men:732,women:734,tot:1466,type:'ma',nm:'فتح آباد — گلی 1,3,4,6 + کھووالی',
+   mohs:[['گلی نمبر 1 فتح آباد غربی','سرکل 2'],['گلی نمبر 3 اور 4','سرکل 2'],['گلی 6 + کھووالی','56 صفحے']],
+   ps:'GPS فتح آباد غربی',tag:'⭐ خواتین اکثریت',
+   strat:'خواتین ووٹرز مردوں سے 2 زیادہ! خواتین ورکرز کو یہاں لگائیں۔ 35% ہدف = 513 ووٹ۔'},
+  {code:'101',men:679,women:660,tot:1339,type:'hm',nm:'جیلانی پورہ — گلی 1 تا 3',
+   mohs:[['گلی 1 — امیدوار کا گھر 🏠','مرکزی'],['گلی 2 اور 3 جیلانی پورہ','54 صفحے'],['چک 224/RB ریونیو اسٹیٹ','ملحقہ']],
+   ps:'GHS جیلانی پورہ',tag:'🏠 امیدوار کا گھر',
+   strat:'امیدوار کا گھر — 95%+ ہدف = 1,272 ووٹ۔ شوکت علی رانا ذمہ دار۔ گھر گھر رابطہ ضروری۔'},
+  {code:'205',men:619,women:573,tot:1192,type:'hm',nm:'جیلانی پورہ — مسجد + مدرسہ',
+   mohs:[['مسجد والی گلی — جیلانی پورہ','مرکزی'],['مدرسہ والا علاقہ','47 صفحے'],['ملحقہ گلیاں','مرد+خواتین']],
+   ps:'GHS جیلانی پورہ',tag:'🏠 جیلانی پورہ',
+   strat:'101+205 مل کر 2,531 ووٹرز۔ مسجد کمیٹی اور امام سے رابطہ — 95% ہدف = 1,132 ووٹ۔'},
+  {code:'201',men:601,women:538,tot:1139,type:'ot',nm:'محلہ جناح آباد',
+   mohs:[['جناح آباد مرکزی علاقہ','46 صفحے'],['ملحقہ گلیاں','سرکل 1']],
+   ps:'گورنمنٹ اسکول جناح آباد',tag:'اضافی ہدف',
+   strat:'PML-N کا روایتی علاقہ۔ مضبوط بلاک کیپٹن رکھیں۔ 40% ہدف = 456 ووٹ۔'},
+  {code:'206',men:373,women:330,tot:703,type:'ma',nm:'فتح آباد — صابر+کھووالی مشترک',
+   mohs:[['راجہ صابر والی گلی حصہ 2','27 صفحے'],['کھووالی گلی حصہ 2','مخلوط']],
+   ps:'GPS فتح آباد غربی',tag:'⭐ مہم علاقہ',
+   strat:'202+206 مل کر 2,907 ووٹرز — ایک ٹیم دونوں کور کر سکتی ہے۔ 35% ہدف = 246 ووٹ۔'},
+  {code:'204',men:403,women:360,tot:763,type:'ma',nm:'فتح آباد — گلی 3 کھووالی',
+   mohs:[['گلی 3 کھووالی فتح آباد','31 صفحے'],['مدرسہ والی گلی','سرکل 1']],
+   ps:'GPS فتح آباد غربی',tag:'⭐ مہم علاقہ',
+   strat:'1 سردار سے پورا بلاک پکا ہو سکتا ہے۔ مدرسے سے رابطہ موثر۔ 30% ہدف = 229 ووٹ۔'},
+  {code:'103',men:467,women:387,tot:854,type:'ot',nm:'محلہ چنیوٹیاں',
+   mohs:[['محلہ چنیوٹیاں مرکزی','34 صفحے']],
+   ps:'گورنمنٹ اسکول جناح آباد',tag:'برادری علاقہ',
+   strat:'چنیوٹیاں برادری PML-N کی حامی۔ برادری سردار سے ملاقات — 40% ہدف = 342 ووٹ۔'},
+  {code:'102',men:292,women:233,tot:525,type:'ot',nm:'آبادی مسر حاکم دین',
+   mohs:[['حسینی سٹریٹ + اوڈین سٹریٹ','21 صفحے']],
+   ps:'گورنمنٹ اسکول جناح آباد',tag:'چھوٹا بلاک',
+   strat:'525 ووٹرز — ذاتی دورے موثر۔ 40% ہدف = 210 ووٹ۔'},
+  {code:'104',men:86,women:70,tot:156,type:'ot',nm:'مسر حاکم دین — حسینی',
+   mohs:[['حسینی سٹریٹ','8 صفحے'],['اوڈین سٹریٹ حصہ 2','ملحقہ']],
+   ps:'گورنمنٹ اسکول جناح آباد',tag:'سب سے چھوٹا',
+   strat:'137 CNICs نکالی گئی ہیں! 1 دن میں پورا بلاک cover۔ 40% ہدف = 62 ووٹ۔'}
+];
+
+// ═══════════════════════════════════════════════════════
+// DATA LAYER
+// ═══════════════════════════════════════════════════════
+var _mem = null;
+
+function ld() {
+  if (_mem !== null) return _mem;
+  try {
+    var r = localStorage.getItem(SK);
+    _mem = r ? JSON.parse(r) : [];
+    return _mem;
+  } catch(e) {
+    _mem = [];
+    return _mem;
+  }
+}
+
+function sd(d) {
+  _mem = d;
+  try { localStorage.setItem(SK, JSON.stringify(d)); } catch(e) {}
+}
+
+function gid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,5);
+}
+
+// ═══════════════════════════════════════════════════════
+// VIRTUAL LIST STATE
+// ═══════════════════════════════════════════════════════
+var _fil = [];
+var _vs = 0;
+var _ve = 0;
+var _sf = 'all';
+var _bf = 'all';
+var _qt = null;
+
+// ═══════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════
+function toast(m, e) {
+  var t = document.getElementById('toast');
+  t.textContent = m;
+  t.className = 'toast' + (e ? ' err' : '');
+  t.classList.add('on');
+  clearTimeout(t._t);
+  t._t = setTimeout(function(){ t.classList.remove('on'); }, 2800);
+}
+
+function cm(id) { document.getElementById(id).classList.remove('on'); }
+function om(id) { document.getElementById(id).classList.add('on'); }
+
+// ═══════════════════════════════════════════════════════
+// PANEL NAV
+// ═══════════════════════════════════════════════════════
+function gp(id) {
+  var panels = document.querySelectorAll('.panel');
+  for (var i = 0; i < panels.length; i++) panels[i].classList.remove('on');
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('on');
+
+  var p = document.getElementById('panel-' + id);
+  if (p) p.classList.add('on');
+
+  var ord = ['dash','search','fams','blocks','team','add','data','analytics'];
+  var idx = ord.indexOf(id);
+  if (idx >= 0 && tabs[idx]) tabs[idx].classList.add('on');
+
+  document.getElementById('scroll').scrollTop = 0;
+
+  if (id === 'search')    { bF(); initVL(); setTimeout(function(){ var q=document.getElementById('q'); if(q) q.focus(); }, 100); }
+  if (id === 'fams')      rFams();
+  if (id === 'dash')      rDash();
+  if (id === 'blocks')    rBlocks();
+  if (id === 'data')      { rDstats(); loadGsUrl(); gdriveSetup(); }
+  if (id === 'analytics') rAnalytics();
+  if (id === 'map') { rPsCards(); setTimeout(initMap, 350); }
+  if (id === 'print') { var pa=document.getElementById('print-preview-area'); if(pa) pa.style.display='none'; }
+
+}
+
+// ═══════════════════════════════════════════════════════
+// KPI UPDATE
+// ═══════════════════════════════════════════════════════
+function uK() {
+  var v = ld();
+  var conf = 0, voted = 0;
+  for (var i = 0; i < v.length; i++) {
+    if (v[i].status === 'confirmed') conf++;
+    if (v[i].voted) voted++;
+  }
+  var fams = getFams(v).length;
+  var pct = v.length ? Math.min(Math.round(conf / TARGET * 100), 100) : 0;
+
+  document.getElementById('hk-tot').textContent  = v.length.toLocaleString();
+  document.getElementById('hk-conf').textContent = conf.toLocaleString();
+  document.getElementById('hk-voted').textContent = voted.toLocaleString();
+  document.getElementById('hk-fam').textContent  = fams.toLocaleString();
+  document.getElementById('hk-pct').textContent  = pct + '%';
+}
+
+// ═══════════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════════
+function rDash() {
+  var v = ld();
+  var conf=0, maybe=0, ag=0, unk=0, voted=0, male=0, fem=0;
+  for (var i = 0; i < v.length; i++) {
+    var x = v[i];
+    if (x.status === 'confirmed') conf++;
+    else if (x.status === 'maybe') maybe++;
+    else if (x.status === 'against') ag++;
+    else unk++;
+    if (x.voted) voted++;
+    if (x.gender === 'male') male++;
+    else fem++;
+  }
+  var pct = v.length ? Math.min(Math.round(conf / TARGET * 100), 100) : 0;
+
+  document.getElementById('d-conf').textContent = conf.toLocaleString();
+  document.getElementById('d-bar').style.width  = pct + '%';
+  document.getElementById('d-pct').textContent  = pct + '% مکمل';
+  document.getElementById('d-may').textContent  = maybe;
+  document.getElementById('d-ag').textContent   = ag;
+  document.getElementById('d-unk').textContent  = unk;
+  document.getElementById('d-vot').textContent  = voted;
+  document.getElementById('d-v2').textContent   = voted;
+  document.getElementById('d-pnd').textContent  = Math.max(0, conf - voted);
+  document.getElementById('d-m').textContent    = male;
+  document.getElementById('d-f').textContent    = fem;
+
+  var tot2 = male + fem || 1;
+  var mpct = Math.round(male / tot2 * 100);
+  var fpct = Math.round(fem  / tot2 * 100);
+  document.getElementById('gbars').innerHTML =
+    '<div class="pw" style="margin-bottom:6px"><div class="pl"><span>👨 مرد</span><span>' + male + ' (' + mpct + '%)</span></div>' +
+    '<div class="pb pb-s"><div class="pf" style="width:' + mpct + '%;background:var(--blue)"></div></div></div>' +
+    '<div class="pw" style="margin:0"><div class="pl"><span>👩 خواتین</span><span>' + fem + ' (' + fpct + '%)</span></div>' +
+    '<div class="pb pb-s"><div class="pf" style="width:' + fpct + '%;background:var(--pink)"></div></div></div>';
+
+  rPie(conf, maybe, ag, unk);
+
+  var bc = {};
+  for (var i = 0; i < v.length; i++) {
+    var x = v[i];
+    if (!bc[x.block]) bc[x.block] = {t:0, c:0};
+    bc[x.block].t++;
+    if (x.status === 'confirmed') bc[x.block].c++;
+  }
+
+  var bl = document.getElementById('blive');
+  if (!v.length) {
+    bl.innerHTML = '<div class="empty"><em>📊</em><p>ابھی کوئی ووٹر نہیں</p></div>';
+    return;
+  }
+
+  var bkeys = Object.keys(BLKN);
+  var html = '';
+  for (var i = 0; i < bkeys.length; i++) {
+    var k = bkeys[i];
+    var d = bc[k] || {t:0, c:0};
+    if (!d.t) continue;
+    var col = isHome(k) ? 'var(--teal)' : isAct(k) ? 'var(--g1)' : '#607D8B';
+    var p = Math.round(d.c / d.t * 100);
+    html += '<div class="pw"><div class="pl"><span style="color:' + col + ';font-weight:700">' + k + ' — ' + BLKN[k] + '</span>' +
+            '<span>' + d.c + '/' + d.t + ' (' + p + '%)</span></div>' +
+            '<div class="pb pb-s"><div class="pf" style="width:' + p + '%;background:' + col + '"></div></div></div>';
+  }
+  bl.innerHTML = html;
+}
+
+function rPie(a, b, c, d) {
+  var data = [
+    {v:a, c:'#2E7D32', l:'✅ پکے حامی'},
+    {v:b, c:'#F9A825', l:'❓ غیر فیصلہ'},
+    {v:c, c:'#E53935', l:'❌ مخالف'},
+    {v:d, c:'#9E9E9E', l:'🔲 نامعلوم'}
+  ];
+  var tot = 0;
+  for (var i = 0; i < data.length; i++) tot += data[i].v;
+  if (!tot) tot = 1;
+
+  var ang = -Math.PI / 2;
+  var paths = '';
+  for (var i = 0; i < data.length; i++) {
+    var x = data[i];
+    if (!x.v) continue;
+    var sw = 2 * Math.PI * (x.v / tot);
+    var x1 = 55 + 48 * Math.cos(ang);
+    var y1 = 55 + 48 * Math.sin(ang);
+    ang += sw;
+    var x2 = 55 + 48 * Math.cos(ang);
+    var y2 = 55 + 48 * Math.sin(ang);
+    paths += '<path d="M55,55L' + x1.toFixed(1) + ',' + y1.toFixed(1) +
+             'A48,48 0 ' + (sw > Math.PI ? 1 : 0) + ',1 ' + x2.toFixed(1) + ',' + y2.toFixed(1) +
+             'Z" fill="' + x.c + '" stroke="#fff" stroke-width="2"/>';
+  }
+  document.getElementById('pie').innerHTML = paths;
+
+  var legHtml = '';
+  for (var i = 0; i < data.length; i++) {
+    var x = data[i];
+    legHtml += '<div style="display:flex;align-items:center;gap:6px">' +
+               '<span class="pdot" style="background:' + x.c + '"></span>' +
+               '<span>' + x.l + ': <strong>' + x.v + '</strong> (' + Math.round(x.v/tot*100) + '%)</span></div>';
+  }
+  document.getElementById('pleg').innerHTML = legHtml;
+}
+
+// ═══════════════════════════════════════════════════════
+// BLOCKS
+// ═══════════════════════════════════════════════════════
+function rBlocks() {
+  var html = '';
+  for (var bi = 0; bi < BKDATA.length; bi++) {
+    var b = BKDATA[bi];
+    var mp = Math.round(b.men / b.tot * 100);
+    var hc  = b.type === 'hm' ? 'hm' : '';
+    var hd  = b.type === 'hm' ? 'hm-c' : b.type === 'ma' ? 'ma-c' : 'ot-c';
+    var sc  = b.type === 'hm' ? 'strat hm' : 'strat';
+    var mc  = b.type === 'hm' ? 'var(--teal)' : 'var(--g1)';
+
+    var mohsH = '';
+    for (var mi = 0; mi < b.mohs.length; mi++) {
+      mohsH += '<div class="moh"><div class="moh-dot" style="background:' + mc + '"></div>' +
+               '<div class="moh-nm">' + b.mohs[mi][0] + '</div>' +
+               '<span class="moh-ch">' + b.mohs[mi][1] + '</span></div>';
+    }
+
+    html += '<div class="bc ' + hc + '">' +
+      '<div class="bc-h ' + hd + '">' +
+        '<div><div class="bc-code">' + b.code + '</div><div class="bc-nm">' + b.nm + '</div></div>' +
+        '<span class="bc-tag">' + b.tag + '</span>' +
+      '</div>' +
+      '<div class="bc-b">' +
+        '<div class="vcg">' +
+          '<div class="vci m"><div class="vcn">' + b.men.toLocaleString() + '</div><div class="vcl">👨 مرد</div></div>' +
+          '<div class="vci f"><div class="vcn">' + b.women.toLocaleString() + '</div><div class="vcl">👩 خواتین</div></div>' +
+          '<div class="vci t"><div class="vcn">' + b.tot.toLocaleString() + '</div><div class="vcl">کل</div></div>' +
+        '</div>' +
+        '<div class="gbar"><div class="gbm" style="width:' + mp + '%"></div><div class="gbf" style="width:' + (100-mp) + '%"></div></div>' +
+        '<div style="font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:6px">📌 محلے / گلیاں</div>' +
+        mohsH +
+        '<div style="margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--border)">' +
+          '<div style="font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:5px">🗳️ پولنگ اسٹیشن</div>' +
+          '<div style="background:var(--bluel);color:var(--blue);border-radius:8px;padding:7px 11px;font-size:11px;font-weight:700">🏫 ' + b.ps + '</div>' +
+        '</div>' +
+        '<div class="' + sc + '">' + b.strat + '</div>' +
+      '</div></div>';
+  }
+  document.getElementById('bkcards').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+// SEARCH & FILTER
+// ═══════════════════════════════════════════════════════
+function onQ() {
+  clearTimeout(_qt);
+  _qt = setTimeout(function(){ bF(); rVL(true); }, 100);
+}
+
+document.getElementById('sc').addEventListener('click', function(e) {
+  var b = e.target.closest('[data-s]');
+  if (!b) return;
+  var chips = document.querySelectorAll('#sc .chip');
+  for (var i=0;i<chips.length;i++) chips[i].classList.remove('on');
+  b.classList.add('on');
+  _sf = b.getAttribute('data-s');
+  bF(); rVL(true);
+});
+
+document.getElementById('bc').addEventListener('click', function(e) {
+  var b = e.target.closest('[data-b]');
+  if (!b) return;
+  var chips = document.querySelectorAll('#bc .chip');
+  for (var i=0;i<chips.length;i++) chips[i].classList.remove('on');
+  b.classList.add('on');
+  _bf = b.getAttribute('data-b');
+  bF(); rVL(true);
+});
+
+function bF() {
+  var qEl = document.getElementById('q');
+  var q = qEl ? qEl.value.trim().toLowerCase() : '';
+  var qc = q.replace(/-/g, '');
+  var v = ld();
+
+  if (_sf !== 'all') {
+    var tmp = [];
+    for (var i=0;i<v.length;i++) if (v[i].status === _sf) tmp.push(v[i]);
+    v = tmp;
+  }
+  if (_bf !== 'all') {
+    var tmp = [];
+    for (var i=0;i<v.length;i++) if (v[i].block === _bf) tmp.push(v[i]);
+    v = tmp;
+  }
+  if (q) {
+    var tmp = [];
+    for (var i=0;i<v.length;i++) {
+      var x = v[i];
+      var cn = (x.cnic||'').replace(/-/g,'');
+      if ((x.name||'').toLowerCase().indexOf(q) >= 0 ||
+          (x.dad||'').toLowerCase().indexOf(q) >= 0 ||
+          cn.slice(-qc.length) === qc || cn.indexOf(qc) >= 0 ||
+          (x.house||'').toLowerCase().indexOf(q) >= 0 ||
+          (x.phone||'').indexOf(q) >= 0) {
+        tmp.push(x);
+      }
+    }
+    v = tmp;
+  }
+
+  _fil = v;
+  var rc = document.getElementById('rc');
+  if (rc) rc.textContent = _fil.length + ' ووٹرز ملے';
+}
+
+// ═══════════════════════════════════════════════════════
+// VIRTUAL LIST
+// ═══════════════════════════════════════════════════════
+function initVL() {
+  bF();
+  var c = document.getElementById('vlc');
+  c.onscroll = function(){ rVL(false); };
+  rVL(true);
+}
+
+function rVL(rst) {
+  var c = document.getElementById('vlc');
+  if (rst) c.scrollTop = 0;
+  var st = c.scrollTop;
+  var vh = c.clientHeight || 500;
+  var tot = _fil.length;
+  var s = Math.max(0, Math.floor(st / ROW_H) - BUF);
+  var e = Math.min(tot, Math.ceil((st + vh) / ROW_H) + BUF);
+  if (!rst && s === _vs && e === _ve) return;
+  _vs = s; _ve = e;
+
+  document.getElementById('vb').style.height = (s * ROW_H) + 'px';
+  document.getElementById('va').style.height = ((tot - e) * ROW_H) + 'px';
+
+  var qEl = document.getElementById('q');
+  var q = qEl ? qEl.value.trim().toLowerCase() : '';
+  var rows = document.getElementById('vr-rows');
+
+  if (!tot) {
+    rows.innerHTML = '<div class="empty"><em>🔍</em><h3>کوئی نتیجہ نہیں</h3><p>دوسرے الفاظ آزمائیں</p></div>';
+    document.getElementById('vb').style.height = '0';
+    document.getElementById('va').style.height = '0';
+    return;
+  }
+
+  var html = '';
+  for (var i = s; i < e; i++) {
+    html += vRow(_fil[i], q);
+  }
+  rows.innerHTML = html;
+}
+
+function hl(t, q) {
+  if (!q || !t) return t || '';
+  var lower = t.toLowerCase();
+  var idx = lower.indexOf(q);
+  if (idx < 0) return t;
+  return t.slice(0, idx) + '<mark>' + t.slice(idx, idx+q.length) + '</mark>' + t.slice(idx+q.length);
+}
+
+function vRow(v, q) {
+  if (q === undefined) q = '';
+  var smMap = {confirmed:['✅ پکا حامی','bg'], maybe:['❓ غیر فیصلہ','by'], against:['❌ مخالف','br'], unknown:['🔲 نامعلوم','bk']};
+  var st = smMap[v.status] || smMap['unknown'];
+  var sl = st[0]; var sb = st[1];
+  var bc2 = isHome(v.block) ? 'bt' : isAct(v.block) ? 'bg' : 'bk';
+
+  var dadH = v.dad ? '<div class="vdad">ولد/زوجہ: ' + hl(v.dad, q) + '</div>' : '';
+  var hsH  = v.house ? '<span class="b bb">🏠 ' + hl(v.house, q) + '</span>' : '';
+  var agH  = v.age  ? '<span class="b bk">🎂 ' + v.age + '</span>' : '';
+  var feH  = v.gender === 'female' ? '<span class="b bp">👩</span>' : '';
+  var psH  = v.ps ? '<span class="b bb">🗳️ ' + v.ps.slice(0,12) + '</span>' : '';
+  var cnH  = v.cnic ? '<span>🪪 ' + hl(v.cnic, q) + '</span>' : '';
+  var phH  = v.phone ? '<span>📱 ' + v.phone + '</span>' : '';
+  var ntH  = v.note ? '<span>📝 ' + v.note.slice(0,40) + (v.note.length>40?'…':'') + '</span>' : '';
+  var vc   = v.voted ? 'voted-yes' : 'voted-no';
+  var vt   = v.voted ? '🗳️ ووٹ دیا' : '⭕ باقی';
+
+  var fB = '';
+  if (v.house) fB = '<button class="btn btn-sm btn-teal" onclick="showFam(\'' + v.id + '\',event)">🏠 خاندان</button>';
+
+  var wB = '';
+  if (v.phone) {
+    var ph = (v.phone||'').replace(/^0/,'').replace(/\D/g,'');
+    var wm = encodeURIComponent('السلام علیکم ' + (v.name||'') + ',\nپولنگ اسٹیشن: ' + (v.ps||'GPS فتح آباد') + '\nسیریل: ' + (v.serial||'-') + '\nفیصل علی رانا CC-72 🏆');
+    wB = '<a href="https://wa.me/92' + ph + '?text=' + wm + '" target="_blank" class="btn btn-sm btn-wa">💬 WA</a>';
+  }
+
+  return '<div class="vr s-' + v.status + (v.voted ? ' v-yes' : '') + '" data-id="' + v.id + '">' +
+    '<div class="vr-top"><div><div class="vname">' + (hl(v.name, q)||'(نامعلوم)') + '</div>' + dadH + '</div>' +
+    '<span class="b ' + sb + '">' + sl + '</span></div>' +
+    '<div class="vbdgs"><span class="b ' + bc2 + '">📍 ' + (v.block||'?') + '</span>' + hsH + agH + feH + psH + '</div>' +
+    '<div class="vmeta">' + cnH + phH + ntH + '</div>' +
+    '<div class="vact">' +
+      '<button class="btn btn-sm ' + vc + '" onclick="togV(\'' + v.id + '\',event)">' + vt + '</button>' +
+      '<button class="btn btn-sm btn-s" onclick="qSt(\'' + v.id + '\',\'confirmed\',event)">✅</button>' +
+      '<button class="btn btn-sm btn-s" onclick="qSt(\'' + v.id + '\',\'maybe\',event)">❓</button>' +
+      '<button class="btn btn-sm btn-d" onclick="qSt(\'' + v.id + '\',\'against\',event)">❌</button>' +
+      fB + wB +
+      '<button class="btn btn-sm btn-s worker-hide" onclick="editV(\'' + v.id + '\',event)">✏️</button>' +
+      '<button class="btn btn-sm btn-d worker-hide" onclick="delV(\'' + v.id + '\',event)">🗑️</button>' +
+    '</div></div>';
+}
+
+// ═══════════════════════════════════════════════════════
+// VOTED TOGGLE
+// ═══════════════════════════════════════════════════════
+var _pvid = null;
+
+function togV(id, e) {
+  if (e) e.stopPropagation();
+  var all = ld();
+  var v = null;
+  for (var i=0;i<all.length;i++) if(all[i].id===id){v=all[i];break;}
+  if (!v) return;
+  if (v.voted) {
+    v.voted = false;
+    sd(all); uK(); bF(); rVL(false);
+    toast('⭕ ووٹ ہٹایا گیا');
+    return;
+  }
+  _pvid = id;
+  document.getElementById('vc-t').textContent = '🗳️ ' + (v.name||'ووٹر') + ' — تصدیق';
+  document.getElementById('vc-s').textContent = 'کیا ' + (v.name||'اس ووٹر') + ' نے ووٹ دے دیا؟ پولنگ ڈے پر یہ ریکارڈ اہم ہے۔';
+  document.getElementById('vc-ok').onclick = confV;
+  // On polling day — add extra warning
+  if (_pollingDay) {
+    document.getElementById('vc-s').textContent += ' \n\n⚠️ پولنگ ڈے موڈ — ایک بار مارک ہونے کے بعد صرف ایڈمن ہٹا سکتا ہے۔';
+  }
+  om('vcov');
+}
+
+function confV() {
+  if (!_pvid) return;
+  var all = ld();
+  for (var i=0;i<all.length;i++) {
+    if (all[i].id === _pvid) { all[i].voted = true; all[i].votedAt = new Date().toISOString(); break; }
+  }
+  sd(all); uK(); bF(); rVL(false);
+  cm('vcov'); _pvid = null;
+  toast('✅ ووٹ ریکارڈ ہو گیا');
+}
+
+// ═══════════════════════════════════════════════════════
+// QUICK STATUS
+// ═══════════════════════════════════════════════════════
+function qSt(id, st, e) {
+  if (e) e.stopPropagation();
+  var all = ld();
+  for (var i=0;i<all.length;i++) {
+    if (all[i].id === id) { all[i].status = st; all[i].updated = new Date().toISOString(); break; }
+  }
+  sd(all); uK(); bF(); rVL(false);
+  var labels = {confirmed:'✅ پکا', maybe:'❓ شاید', against:'❌ مخالف'};
+  toast(labels[st] || 'اپ ڈیٹ');
+}
+
+// ═══════════════════════════════════════════════════════
+// FAMILY
+// ═══════════════════════════════════════════════════════
+function fk(v) {
+  var h = (v.house||'').trim().toUpperCase().replace(/\s/g,'');
+  return (h && v.block) ? (v.block + '|' + h) : null;
+}
+
+function getFams(voters) {
+  var g = {};
+  for (var i=0;i<voters.length;i++) {
+    var v = voters[i];
+    var k = fk(v);
+    if (!k) continue;
+    if (!g[k]) g[k] = [];
+    g[k].push(v);
+  }
+  var keys = Object.keys(g);
+  var result = [];
+  for (var i=0;i<keys.length;i++) {
+    var key = keys[i];
+    var mb = g[key];
+    mb.sort(function(a,b){
+      if (a.gender==='male' && b.gender!=='male') return -1;
+      if (b.gender==='male' && a.gender!=='male') return 1;
+      return (parseInt(b.age)||0) - (parseInt(a.age)||0);
+    });
+    var parts = key.split('|');
+    var conf = 0;
+    for (var j=0;j<mb.length;j++) if(mb[j].status==='confirmed') conf++;
+    result.push({key:key, blk:parts[0], house:parts[1], head:mb[0], mb:mb, conf:conf});
+  }
+  result.sort(function(a,b){
+    if (a.blk < b.blk) return -1;
+    if (a.blk > b.blk) return 1;
+    if (a.house < b.house) return -1;
+    if (a.house > b.house) return 1;
+    return 0;
+  });
+  return result;
+}
+
+function showFam(id, e) {
+  if (e) e.stopPropagation();
+  var voters = ld();
+  var v = null;
+  for (var i=0;i<voters.length;i++) if(voters[i].id===id){v=voters[i];break;}
+  if (!v || !v.house) return;
+
+  var key = fk(v);
+  var mb = [];
+  for (var i=0;i<voters.length;i++) if(fk(voters[i])===key) mb.push(voters[i]);
+  mb.sort(function(a,b){
+    if (a.gender==='male' && b.gender!=='male') return -1;
+    if (b.gender==='male' && a.gender!=='male') return 1;
+    return (parseInt(b.age)||0) - (parseInt(a.age)||0);
+  });
+
+  var conf = 0;
+  for (var i=0;i<mb.length;i++) if(mb[i].status==='confirmed') conf++;
+
+  document.getElementById('fam-t').textContent = '🏠 گھر ' + v.house + ' — بلاک ' + v.block + ' — ' + mb.length + ' ووٹرز';
+
+  var scMap = {confirmed:'bg', maybe:'by', against:'br', unknown:'bk'};
+  var siMap = {confirmed:'✅', maybe:'❓', against:'❌', unknown:'🔲'};
+
+  var mbHtml = '';
+  for (var i=0;i<mb.length;i++) {
+    var m = mb[i];
+    var sc2 = scMap[m.status] || 'bk';
+    var si = siMap[m.status] || '?';
+    mbHtml += '<div class="fm-mb' + (i===0?' fm-hd':'') + '">' +
+      '<div><div style="font-weight:700;font-size:14px">' + (i===0?'👑 ':'') + (m.name||'نامعلوم') + '</div>' +
+      '<div style="font-size:11px;color:var(--txt2)">' + (m.dad?'ولد: '+m.dad+' • ':'') + ' عمر: ' + (m.age||'؟') + (m.gender==='female'?' 👩':'') + '</div></div>' +
+      '<div style="display:flex;gap:6px;align-items:center"><span class="b ' + sc2 + '">' + si + '</span>' +
+      '<button class="btn btn-sm btn-s" onclick="editV(\'' + m.id + '\');cm(\'fam-ov\')">✏️</button></div>' +
+      '</div>';
+  }
+
+  document.getElementById('fam-b').innerHTML =
+    '<div style="background:var(--gp);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:12px;color:var(--g1)">' +
+    '✅ پکے: <strong>' + conf + '</strong> / ' + mb.length + ' ' + (conf===mb.length ? '🎉 پورا خاندان پکا!' : '— باقی: ' + (mb.length-conf)) + '</div>' +
+    mbHtml +
+    '<button class="btn btn-p btn-full worker-hide" style="margin-top:10px" onclick="confFam(\'' + key + '\')">✅ پورے خاندان کو پکا کریں</button>';
+
+  om('fam-ov');
+}
+
+function confFam(key) {
+  var all = ld(); var cnt = 0;
+  for (var i=0;i<all.length;i++) {
+    if (fk(all[i]) === key) { all[i].status = 'confirmed'; cnt++; }
+  }
+  sd(all); uK(); bF(); rVL(false); cm('fam-ov');
+  toast('✅ ' + cnt + ' ووٹرز پکے کیے');
+}
+
+// ═══════════════════════════════════════════════════════
+// FAMILIES PANEL
+// ═══════════════════════════════════════════════════════
+function rFams() {
+  var fqEl = document.getElementById('fq');
+  var q = fqEl ? fqEl.value.toLowerCase().trim() : '';
+  var fams = getFams(ld());
+
+  if (q) {
+    var tmp = [];
+    for (var i=0;i<fams.length;i++) {
+      var f = fams[i];
+      var match = f.house.toLowerCase().indexOf(q) >= 0 ||
+                  ((f.head&&f.head.name)||'').toLowerCase().indexOf(q) >= 0;
+      if (!match) {
+        for (var j=0;j<f.mb.length;j++) if((f.mb[j].name||'').toLowerCase().indexOf(q)>=0){match=true;break;}
+      }
+      if (match) tmp.push(f);
+    }
+    fams = tmp;
+  }
+
+  var el = document.getElementById('flist');
+  if (!fams.length) { el.innerHTML = '<div class="empty"><em>🏘️</em><h3>خاندان نہیں ملا</h3></div>'; return; }
+
+  var scMap = {confirmed:'bg', maybe:'by', against:'br', unknown:'bk'};
+  var siMap = {confirmed:'✅', maybe:'❓', against:'❌', unknown:'🔲'};
+
+  var html = '';
+  for (var fi=0;fi<fams.length;fi++) {
+    var f = fams[fi];
+    var mbInner = '';
+    for (var mi=0;mi<f.mb.length;mi++) {
+      var m = f.mb[mi];
+      var sc2 = scMap[m.status] || 'bk';
+      var si  = siMap[m.status] || '🔲';
+      mbInner += '<div class="fm-mb' + (mi===0?' fm-hd':'') + '">' +
+        '<div><div style="font-weight:700">' + (mi===0?'👑 ':'') + (m.name||'؟') + '</div>' +
+        '<div style="font-size:11px;color:var(--txt2)">' + (m.age?'عمر: '+m.age:'') + (m.gender==='female'?' 👩':'') + (m.cnic?' | 🪪 '+m.cnic:'') + '</div></div>' +
+        '<div style="display:flex;gap:5px"><span class="b ' + sc2 + '">' + si + '</span>' +
+        '<button class="btn btn-sm btn-s" onclick="editV(\'' + m.id + '\')">✏️</button></div></div>';
+    }
+
+    html += '<div style="background:#fff;border-radius:var(--r);border:2px solid var(--g2);margin-bottom:12px;overflow:hidden;box-shadow:var(--sh)">' +
+      '<div style="background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" ' +
+      'onclick="var n=this.nextElementSibling;n.style.display=n.style.display===\'none\'?\'block\':\'none\'">' +
+      '<div><div style="font-weight:700;font-size:14px">🏠 ' + f.house + ' — بلاک ' + f.blk + '</div>' +
+      '<div style="font-size:10px;opacity:.85">سربراہ: ' + ((f.head&&f.head.name)||'—') + ' | ✅ ' + f.conf + '/' + f.mb.length + '</div></div>' +
+      '<span style="background:rgba(255,255,255,.22);border-radius:20px;padding:3px 11px;font-weight:700">' + f.mb.length + '</span></div>' +
+      '<div style="display:none">' + mbInner +
+      '<div style="padding:10px 14px;background:var(--gp)">' +
+      '<button class="btn btn-p btn-sm worker-hide" onclick="confFam(\'' + f.key + '\')">✅ پورا خاندان پکا کریں</button></div></div></div>';
+  }
+  el.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+// ADD / EDIT / DELETE
+// ═══════════════════════════════════════════════════════
+function cancelE() {
+  var fields = ['f-nm','f-dd','f-cn','f-hs','f-ph','f-nt','f-id'];
+  for (var i=0;i<fields.length;i++) {
+    var el = document.getElementById(fields[i]);
+    if (el) el.value = '';
+  }
+  var sels = ['f-bl','f-ps','f-st','f-gn'];
+  for (var i=0;i<sels.length;i++) {
+    var el = document.getElementById(sels[i]);
+    if (el) el.selectedIndex = 0;
+  }
+  document.getElementById('f-ag').value = '';
+  document.getElementById('f-st').value = 'unknown';
+  document.getElementById('f-gn').value = 'male';
+  document.getElementById('btn-cancel').style.display = 'none';
+  document.getElementById('f-title').textContent = '➕ نیا ووٹر شامل کریں';
+}
+
+function sv() {
+  var name  = document.getElementById('f-nm').value.trim();
+  var block = document.getElementById('f-bl').value;
+  var house = document.getElementById('f-hs').value.trim();
+  var cnic  = document.getElementById('f-cn').value.trim();
+  var eid   = document.getElementById('f-id').value;
+
+  if (!name)  { toast('⚠️ نام ضروری ہے', true); return; }
+  if (!block) { toast('⚠️ بلاک ضروری ہے', true); return; }
+  if (!house) { toast('⚠️ گھر نمبر ضروری ہے', true); return; }
+
+  var all = ld();
+  if (cnic) {
+    for (var i=0;i<all.length;i++) {
+      if (all[i].cnic === cnic && all[i].id !== eid) {
+        toast('⚠️ یہ CNIC پہلے سے موجود: ' + (all[i].name||'نامعلوم'), true);
+        return;
+      }
+    }
+  }
+
+  var now = new Date().toISOString();
+  var existVoted = false;
+  var existCreated = now;
+  if (eid) {
+    for (var i=0;i<all.length;i++) {
+      if (all[i].id===eid) { existVoted=all[i].voted||false; existCreated=all[i].created||now; break; }
+    }
+  }
+
+  var voter = {
+    id: eid || gid(),
+    name: name,
+    dad: document.getElementById('f-dd').value.trim(),
+    cnic: cnic,
+    house: house.toUpperCase(),
+    block: block,
+    phone: document.getElementById('f-ph').value.trim(),
+    age: document.getElementById('f-ag').value.trim(),
+    gender: document.getElementById('f-gn').value,
+    ps: document.getElementById('f-ps').value,
+    status: document.getElementById('f-st').value,
+    note: document.getElementById('f-nt').value.trim(),
+    voted: existVoted,
+    updated: now,
+    created: existCreated
+  };
+
+  if (eid) {
+    var found = false;
+    for (var i=0;i<all.length;i++) { if (all[i].id===eid) { all[i]=voter; found=true; break; } }
+    if (!found) all.push(voter);
+  } else {
+    all.push(voter);
+  }
+
+  sd(all); uK(); cancelE();
+  toast(eid ? '✏️ اپ ڈیٹ ہو گیا' : '✅ ووٹر شامل ہو گیا');
+  gp('search');
+}
+
+function editV(id, e) {
+  if (e) e.stopPropagation();
+  var v = null;
+  var all = ld();
+  for (var i=0;i<all.length;i++) if(all[i].id===id){v=all[i];break;}
+  if (!v) return;
+  gp('add');
+  document.getElementById('f-nm').value = v.name  || '';
+  document.getElementById('f-dd').value = v.dad   || '';
+  document.getElementById('f-cn').value = v.cnic  || '';
+  document.getElementById('f-hs').value = v.house || '';
+  document.getElementById('f-bl').value = v.block || '';
+  document.getElementById('f-ph').value = v.phone || '';
+  document.getElementById('f-ag').value = v.age   || '';
+  document.getElementById('f-gn').value = v.gender|| 'male';
+  document.getElementById('f-ps').value = v.ps    || '';
+  document.getElementById('f-st').value = v.status|| 'unknown';
+  document.getElementById('f-nt').value = v.note  || '';
+  document.getElementById('f-id').value = v.id;
+  document.getElementById('f-title').textContent = '✏️ ووٹر اپ ڈیٹ کریں';
+  document.getElementById('btn-cancel').style.display = 'block';
+  document.getElementById('scroll').scrollTop = 0;
+}
+
+function delV(id, e) {
+  if (e) e.stopPropagation();
+  if (_role !== 'admin') { toast('⚠️ ورکر حذف نہیں کر سکتا', true); return; }
+  if (!confirm('حذف کریں؟')) return;
+  var all = ld();
+  var filtered = [];
+  for (var i=0;i<all.length;i++) if(all[i].id !== id) filtered.push(all[i]);
+  sd(filtered); uK(); bF(); rVL(false);
+  toast('🗑️ حذف ہوا');
+}
+
+function fmtC(inp) {
+  var v = inp.value.replace(/\D/g,'').slice(0,13);
+  if (v.length > 5)  v = v.slice(0,5)  + '-' + v.slice(5);
+  if (v.length > 13) v = v.slice(0,13) + '-' + v.slice(13);
+  inp.value = v;
+  // Validate complete CNIC
+  var clean = v.replace(/-/g,'');
+  var hint = inp.parentNode ? inp.parentNode.querySelector('.hint') : null;
+  if (hint) {
+    if (clean.length === 13) {
+      hint.textContent = '✅ CNIC درست ہے';
+      hint.style.color = 'var(--g2)';
+    } else if (clean.length > 0) {
+      hint.textContent = clean.length + '/13 ہندسے';
+      hint.style.color = 'var(--gold)';
+    } else {
+      hint.textContent = 'فارمیٹ: 33100-1234567-8';
+      hint.style.color = 'var(--txt3)';
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// DATA PANEL
+// ═══════════════════════════════════════════════════════
+function rDstats() {
+  var v = ld();
+  var conf=0, voted=0;
+  for (var i=0;i<v.length;i++) {
+    if(v[i].status==='confirmed') conf++;
+    if(v[i].voted) voted++;
+  }
+  var fams = getFams(v).length;
+  var pct = v.length ? Math.min(Math.round(conf/TARGET*100),100) : 0;
+
+  var storageInfo = checkStorageSize();
+  document.getElementById('dstats').innerHTML =
+    '<div class="sg">' +
+    '<div class="sc"><div class="sn" style="color:var(--g1)">' + v.length + '</div><div class="sl">کل ووٹرز</div></div>' +
+    '<div class="sc"><div class="sn" style="color:var(--g2)">' + fams + '</div><div class="sl">خاندان</div></div>' +
+    '<div class="sc"><div class="sn" style="color:var(--g2)">' + conf + '</div><div class="sl">✅ پکے</div></div>' +
+    '<div class="sc"><div class="sn" style="color:var(--teal)">' + voted + '</div><div class="sl">🗳️ ووٹ دیا</div></div>' +
+    '</div>' +
+    '<div class="pw" style="margin:0"><div class="pl"><span>ہدف ترقی</span><span>' + pct + '%</span></div>' +
+    '<div class="pb"><div class="pf" style="width:' + pct + '%;background:var(--g2)"></div></div></div>' +'<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">' +'<div class="pl"><span style="font-size:11px">💾 Storage استعمال</span><span>' + storageInfo.mb + 'MB / 5MB (' + storageInfo.pct + '%)</span></div>' +'<div class="pb pb-s"><div class="pf" style="width:' + Math.min(storageInfo.pct,100) + '%;background:' + (storageInfo.pct > 80 ? 'var(--redm)' : 'var(--teal)') + '"></div></div></div>';
+}
+
+function ti(type) {
+  document.getElementById('i' + type).click();
+}
+
+function doJ(e) {
+  var f = e.target.files[0]; if (!f) return;
+  var pg = document.getElementById('imp-p');
+  pg.textContent = '⏳ JSON لوڈ ہو رہا ہے…'; pg.classList.add('on');
+  var r = new FileReader();
+  r.onload = function(ev) {
+    try {
+      var data = JSON.parse(ev.target.result);
+      var inc = data.voters || (Array.isArray(data) ? data : []);
+      if (!inc.length) { toast('⚠️ خالی فائل', true); pg.classList.remove('on'); return; }
+      merge(inc);
+    } catch(err) { toast('⚠️ JSON غلط ہے', true); pg.classList.remove('on'); }
+  };
+  r.readAsText(f);
+  e.target.value = '';
+}
+
+function doC(e) {
+  var f = e.target.files[0]; if (!f) return;
+  var pg = document.getElementById('imp-p');
+  pg.textContent = '⏳ CSV پڑھا جا رہا ہے…'; pg.classList.add('on');
+  var r = new FileReader();
+  r.onload = function(ev) {
+    try {
+      var lines = ev.target.result.replace(/\r/g,'').split('\n').filter(function(l){return l.trim();});
+      if (lines.length < 2) { toast('⚠️ CSV خالی ہے', true); pg.classList.remove('on'); return; }
+
+      var hdr = lines[0].split(',').map(function(h){ return h.replace(/^"|"$/g,'').trim().toLowerCase(); });
+      function ci(ns) {
+        for (var n=0;n<ns.length;n++) {
+          for (var h=0;h<hdr.length;h++) { if (hdr[h].indexOf(ns[n])>=0) return h; }
+        }
+        return -1;
+      }
+
+      var iNm=ci(['name','نام']), iDd=ci(['father','والد','dad','husband']),
+          iCn=ci(['cnic','nic']),  iHs=ci(['house','گھر','ghar']),
+          iBl=ci(['block','بلاک']),iGn=ci(['gender','جنس']), iAg=ci(['age','عمر']),
+          iPh=ci(['phone','فون','mobile']), iSt=ci(['status','حیثیت']),
+          iNt=ci(['note','نوٹ','remarks']), iPs=ci(['polling','پولنگ','station']),
+          iSr=ci(['serial','سلسلہ']);
+
+      function pR(row) {
+        var cols = row.split(',').map(function(c){return c.replace(/^"|"$/g,'').trim();});
+        function g(i){ return i>=0 ? (cols[i]||'') : ''; }
+        var cnic2 = g(iCn).replace(/[^0-9-]/g,'');
+        var rs = g(iSt).toLowerCase();
+        var status = 'unknown';
+        if (rs.indexOf('پکا')>=0||rs.indexOf('confirm')>=0) status='confirmed';
+        else if (rs.indexOf('شاید')>=0||rs.indexOf('maybe')>=0) status='maybe';
+        else if (rs.indexOf('مخالف')>=0||rs.indexOf('against')>=0) status='against';
+        var rg = g(iGn).toLowerCase();
+        var gender = (rg.indexOf('female')>=0||rg.indexOf('خاتون')>=0||rg==='ف') ? 'female' : 'male';
+        return {
+          id:gid(), name:g(iNm), dad:g(iDd), cnic:cnic2,
+          house:g(iHs).toUpperCase(), block:g(iBl), gender:gender,
+          age:g(iAg), phone:g(iPh), ps:g(iPs), status:status,
+          note:g(iNt), serial:g(iSr), voted:false,
+          created:new Date().toISOString(), updated:new Date().toISOString()
+        };
+      }
+
+      var inc = [];
+      for (var i=1;i<lines.length;i++) {
+        var v = pR(lines[i]);
+        if (v.name||v.cnic) inc.push(v);
+      }
+      pg.textContent = '⏳ ' + inc.length + ' rows — merge ہو رہی ہیں...';
+      setTimeout(function(){ merge(inc); }, 50);
+    } catch(err) { console.error(err); toast('⚠️ CSV غلط فارمیٹ', true); pg.classList.remove('on'); }
+  };
+  r.readAsText(f, 'utf-8');
+  e.target.value = '';
+}
+
+function merge(inc) {
+  var ex = ld();
+  var byCn = {}; var byId = {};
+  for (var i=0;i<ex.length;i++) {
+    if (ex[i].cnic) byCn[ex[i].cnic] = ex[i];
+    byId[ex[i].id] = ex[i];
+  }
+  var add=0, upd=0, skip=0;
+  var merged = ex.slice();
+
+  for (var i=0;i<inc.length;i++) {
+    var v = inc[i];
+    if (v.cnic && byCn[v.cnic]) {
+      var x = byCn[v.cnic]; var ch = false;
+      var flds = ['name','dad','house','block','age','gender','phone','ps','serial','note'];
+      for (var j=0;j<flds.length;j++) { if (!x[flds[j]] && v[flds[j]]) { x[flds[j]]=v[flds[j]]; ch=true; } }
+      if (ch) { x.updated=new Date().toISOString(); upd++; } else skip++;
+    } else if (byId[v.id]) {
+      skip++;
+    } else {
+      merged.push(v);
+      if (v.cnic) byCn[v.cnic] = v;
+      byId[v.id] = v;
+      add++;
+    }
+  }
+
+  sd(merged); uK(); bF(); rVL(true);
+  document.getElementById('imp-p').classList.remove('on');
+  toast('✅ ' + add + ' نئے | ' + upd + ' اپ ڈیٹ | ' + skip + ' ڈپلیکیٹ');
+}
+
+function expC() {
+  var v = ld();
+  if (!v.length) { toast('⚠️ ڈیٹا نہیں', true); return; }
+  var fams = getFams(v); var hds = {};
+  for (var i=0;i<fams.length;i++) if(fams[i].head) hds[fams[i].key]=fams[i].head.name;
+  var sL = {confirmed:'پکا حامی', maybe:'غیر فیصلہ', against:'مخالف', unknown:'نامعلوم'};
+  var gL = {male:'مرد', female:'خاتون'};
+  var hdrs = ['#','نام','والد/شوہر','CNIC','گھر نمبر','بلاک','علاقہ','جنس','عمر','فون','پولنگ اسٹیشن','حمایت','خاندانی سربراہ','ووٹ دیا','نوٹ','تاریخ'];
+  var rows = [];
+  for (var i=0;i<v.length;i++) {
+    var x = v[i];
+    var row = [i+1, x.name||'', x.dad||'', x.cnic||'', x.house||'', x.block||'',
+               BLKN[x.block]||'', gL[x.gender]||'', x.age||'', x.phone||'', x.ps||'',
+               sL[x.status]||'', hds[fk(x)]||'', x.voted?'ہاں':'نہیں', x.note||'',
+               x.created?x.created.slice(0,10):''];
+    rows.push(row.map(function(c){ return '"' + String(c).replace(/"/g,'""') + '"'; }).join(','));
+  }
+  dl('CC72_ووٹر_فہرست.csv', '\uFEFF' + [hdrs.join(',')].concat(rows).join('\n'), 'text/csv;charset=utf-8;');
+  markBackupDone(); toast('✅ ' + v.length + ' ووٹرز برآمد');
+}
+
+function expJ() {
+  var v = ld();
+  dl('CC72_بیک_اپ.json', JSON.stringify({exported:new Date().toISOString(),version:4,total:v.length,voters:v},null,2), 'application/json');
+  markBackupDone(); toast('💾 ' + v.length + ' ووٹرز کا بیک اپ');
+}
+
+function clrAll() {
+  if (!confirm('تمام ڈیٹا مٹائیں؟')) return;
+  if (!confirm('واقعی؟ یہ واپس نہیں ہو گا!')) return;
+  _mem = null;
+  localStorage.removeItem(SK);
+  uK(); bF(); rVL(true);
+  toast('🗑️ ڈیٹا مٹا دیا');
+}
+
+function dl(nm, ct, tp) {
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ct], {type:tp}));
+  a.download = nm;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// ═══════════════════════════════════════════════════════
+// ANALYTICS
+// ═══════════════════════════════════════════════════════
+var ECP_COUNTS = {
+  '101':{tot:1339,men:679,women:660,nm:'جیلانی پورہ'},
+  '102':{tot:525,men:292,women:233,nm:'مسر حاکم دین'},
+  '103':{tot:854,men:467,women:387,nm:'چنیوٹیاں'},
+  '104':{tot:156,men:86,women:70,nm:'مسر حاکم دین (حسینی)'},
+  '201':{tot:1139,men:601,women:538,nm:'جناح آباد'},
+  '202':{tot:2204,men:1136,women:1068,nm:'فتح آباد (راجہ صابر)'},
+  '203':{tot:1466,men:732,women:734,nm:'فتح آباد (گلی 1,3,4,6)'},
+  '204':{tot:763,men:403,women:360,nm:'فتح آباد (کھووالی)'},
+  '205':{tot:1192,men:619,women:573,nm:'جیلانی پورہ (مسجد)'},
+  '206':{tot:703,men:373,women:330,nm:'فتح آباد (صابر+کھووالی)'}
+};
+var ECP_TOTAL = 10341;
+
+function rAnalytics() {
+  var v = ld();
+  var bs = {};
+  var ecpKeys = Object.keys(ECP_COUNTS);
+  for (var i=0;i<ecpKeys.length;i++) bs[ecpKeys[i]] = {imp:0,conf:0,voted:0,m:0,f:0};
+
+  var totConf=0, totVot=0, totMay=0, totAg=0, totUnk=0;
+  for (var i=0;i<v.length;i++) {
+    var x = v[i];
+    if (!bs[x.block]) bs[x.block] = {imp:0,conf:0,voted:0,m:0,f:0};
+    bs[x.block].imp++;
+    if (x.status==='confirmed'){bs[x.block].conf++;totConf++;}
+    else if (x.status==='maybe') totMay++;
+    else if (x.status==='against') totAg++;
+    else totUnk++;
+    if (x.voted){bs[x.block].voted++;totVot++;}
+    if (x.gender==='male') bs[x.block].m++;
+    else bs[x.block].f++;
+  }
+
+  var totImp = v.length;
+  var impPct  = Math.round(totImp / ECP_TOTAL * 100);
+  var confPct = totImp ? Math.round(totConf / TARGET * 100) : 0;
+
+  document.getElementById('ana-top').innerHTML =
+    '<div class="ana-card"><div class="ana-n" style="color:var(--g1)">' + ECP_TOTAL.toLocaleString() + '</div><div class="ana-l">📋 ECP کل ووٹرز</div></div>' +
+    '<div class="ana-card"><div class="ana-n" style="color:var(--blue)">' + totImp.toLocaleString() + '</div><div class="ana-l">📥 درآمد شدہ (' + impPct + '%)</div></div>' +
+    '<div class="ana-card"><div class="ana-n" style="color:var(--g2)">' + totConf.toLocaleString() + '</div><div class="ana-l">✅ پکے حامی</div></div>' +
+    '<div class="ana-card"><div class="ana-n" style="color:var(--golddark)">' + TARGET.toLocaleString() + '</div><div class="ana-l">🎯 جیت کا ہدف</div></div>' +
+    '<div class="ana-card"><div class="ana-n" style="color:var(--teal)">' + totVot.toLocaleString() + '</div><div class="ana-l">🗳️ ووٹ دیا</div></div>' +
+    '<div class="ana-card"><div class="ana-n" style="color:var(--redm)">' + (ECP_TOTAL-totImp).toLocaleString() + '</div><div class="ana-l">⏳ باقی درآمد</div></div>';
+
+  // Block rows sorted by ECP total descending
+  var sortedBlks = ecpKeys.slice().sort(function(a,b){ return ECP_COUNTS[b].tot - ECP_COUNTS[a].tot; });
+  var rows = '';
+  for (var i=0;i<sortedBlks.length;i++) {
+    var k = sortedBlks[i];
+    var ec = ECP_COUNTS[k];
+    var d = bs[k] || {imp:0,conf:0,voted:0};
+    var impP = Math.round(d.imp / ec.tot * 100);
+    var cls = isHome(k) ? 'hm-r' : isAct(k) ? 'ma-r' : '';
+    rows += '<div class="blk-s-r ' + cls + '">' +
+      '<span>' + k + ' — ' + ec.nm + '</span>' +
+      '<span>' + ec.tot.toLocaleString() + '</span>' +
+      '<span>' + d.imp + '<div class="mini-bar"><div class="mini-fill" style="width:' + impP + '%"></div></div></span>' +
+      '<span style="color:var(--g2);font-weight:700">' + d.conf + '</span>' +
+      '<span style="color:var(--teal);font-weight:700">' + d.voted + '</span></div>';
+  }
+  rows += '<div class="blk-s-r tot"><span>🏆 مجموعی</span><span>' + ECP_TOTAL.toLocaleString() + '</span><span>' + totImp + '</span><span>' + totConf + '</span><span>' + totVot + '</span></div>';
+  document.getElementById('blk-ana-rows').innerHTML = rows;
+
+  // Gender analysis
+  var totM=0, totF=0;
+  for (var i=0;i<v.length;i++) { if(v[i].gender==='male') totM++; else totF++; }
+  var tot2 = totM+totF||1;
+  document.getElementById('gender-ana').innerHTML =
+    '<div class="ana-grid" style="margin-bottom:10px">' +
+    '<div class="ana-card"><div class="ana-n" style="color:var(--blue)">' + totM + '</div><div class="ana-l">👨 مرد درآمد</div></div>' +
+    '<div class="ana-card"><div class="ana-n" style="color:var(--pink)">' + totF + '</div><div class="ana-l">👩 خواتین درآمد</div></div></div>' +
+    '<div style="font-size:11px;color:var(--txt2);margin-bottom:6px">ECP اصل تناسب: مرد 52.1% | خواتین 47.9%</div>' +
+    '<div style="margin-bottom:6px"><div style="font-size:11px;font-weight:600;color:var(--blue);margin-bottom:3px">👨 مرد ' + Math.round(totM/tot2*100) + '%</div>' +
+    '<div class="pb pb-s"><div class="pf" style="width:' + Math.round(totM/tot2*100) + '%;background:var(--blue)"></div></div></div>' +
+    '<div><div style="font-size:11px;font-weight:600;color:var(--pink);margin-bottom:3px">👩 خواتین ' + Math.round(totF/tot2*100) + '%</div>' +
+    '<div class="pb pb-s"><div class="pf" style="width:' + Math.round(totF/tot2*100) + '%;background:var(--pink)"></div></div></div>';
+
+  // Support analysis
+  var sData = [
+    {l:'✅ پکے حامی', v:totConf, c:'var(--g2)', p:totImp?Math.round(totConf/totImp*100):0},
+    {l:'❓ غیر فیصلہ', v:totMay,  c:'var(--gold)', p:totImp?Math.round(totMay/totImp*100):0},
+    {l:'❌ مخالف',    v:totAg,   c:'var(--redm)', p:totImp?Math.round(totAg/totImp*100):0},
+    {l:'🔲 نامعلوم', v:totUnk,  c:'#9E9E9E',      p:totImp?Math.round(totUnk/totImp*100):0}
+  ];
+  var sBg = confPct >= 100 ? 'var(--gp)' : 'var(--golda)';
+  var sC  = confPct >= 100 ? 'var(--g1)' : 'var(--golddark)';
+  var suppHtml = '<div style="background:' + sBg + ';border-radius:10px;padding:12px 14px;margin-bottom:10px;text-align:center">' +
+    '<div style="font-size:28px;font-weight:700;color:' + sC + '">' + confPct + '%</div>' +
+    '<div style="font-size:11px;color:var(--txt2)">ہدف (' + TARGET.toLocaleString() + ') کی طرف پیشرفت</div>' +
+    '<div class="pb" style="margin-top:8px"><div class="pf" style="width:' + Math.min(confPct,100) + '%;background:var(--g2)"></div></div>' +
+    '<div style="font-size:10px;margin-top:4px;color:var(--txt2)">مزید درکار: ' + Math.max(0,TARGET-totConf).toLocaleString() + ' ووٹ</div></div>';
+  for (var i=0;i<sData.length;i++) {
+    var x = sData[i];
+    suppHtml += '<div class="pw" style="margin-bottom:8px"><div class="pl"><span style="color:' + x.c + ';font-weight:700">' + x.l + ': ' + x.v + '</span><span>' + x.p + '%</span></div>' +
+      '<div class="pb pb-s"><div class="pf" style="width:' + x.p + '%;background:' + x.c + '"></div></div></div>';
+  }
+  document.getElementById('support-ana').innerHTML = suppHtml;
+
+  // Daily progress
+  var days = {};
+  var now2 = new Date();
+  for (var i=6;i>=0;i--) {
+    var d = new Date(now2);
+    d.setDate(d.getDate() - i);
+    days[d.toISOString().slice(0,10)] = 0;
+  }
+  for (var i=0;i<v.length;i++) {
+    var dt = (v[i].created||'').slice(0,10);
+    if (typeof days[dt] !== 'undefined') days[dt]++;
+  }
+  var dayKeys = Object.keys(days);
+  var maxD = 1;
+  for (var i=0;i<dayKeys.length;i++) if(days[dayKeys[i]]>maxD) maxD=days[dayKeys[i]];
+  var dayLabels = ['آج','کل','2 دن'];
+  var dailyHtml = '<div style="font-size:11px;color:var(--txt2);margin-bottom:8px">آخری 7 دن میں شامل ووٹرز</div>';
+  for (var i=dayKeys.length-1;i>=0;i--) {
+    var dk = dayKeys[i]; var cnt = days[dk];
+    var lb = (dayKeys.length-1-i) < 3 ? dayLabels[dayKeys.length-1-i] : dk.slice(5);
+    var wd = Math.round(cnt / maxD * 100);
+    dailyHtml += '<div class="pw" style="margin-bottom:6px"><div class="pl"><span style="font-size:10px">' + lb + '</span><span style="font-family:var(--mono);font-weight:700">' + cnt + '</span></div>' +
+      '<div class="pb pb-s"><div class="pf" style="width:' + wd + '%;background:var(--blue)"></div></div></div>';
+  }
+  document.getElementById('daily-ana').innerHTML = dailyHtml;
+}
+
+// ═══════════════════════════════════════════════════════
+// PIN & ROLE SYSTEM
+// ═══════════════════════════════════════════════════════
+var PINS = {admin:'2605', worker:'7272'};
+var _role = '';
+var _pinBuf = '';
+var _selRole = 'admin';
+
+function selRole(r) {
+  _selRole = r;
+  document.getElementById('rb-admin').classList.toggle('on', r==='admin');
+  document.getElementById('rb-worker').classList.toggle('on', r==='worker');
+  _pinBuf = ''; rDots();
+  document.getElementById('pin-err').textContent = '';
+}
+
+function pinKey(k) {
+  if (_pinBuf.length >= 4) return;
+  _pinBuf += k; rDots();
+  if (_pinBuf.length === 4) setTimeout(checkPin, 120);
+}
+
+function pinDel() { _pinBuf = _pinBuf.slice(0,-1); rDots(); }
+
+function rDots() {
+  for (var i=0;i<4;i++) {
+    document.getElementById('pd'+i).classList.toggle('filled', i < _pinBuf.length);
+  }
+}
+
+function checkPin() {
+  if (_pinBuf === PINS[_selRole]) {
+    _role = _selRole;
+    document.getElementById('pin-screen').classList.add('hide');
+    applyRole();
+    loadSample();
+    uK(); rDash();
+    toast(_role==='admin' ? '👑 ایڈمن موڈ — مکمل رسائی' : '👷 ورکر موڈ — محدود رسائی');
+  if(_role==='admin') { checkBackupReminder(); gdriveCheckRedirect(); }
+  updateOnlineStatus();
+  applyPollingDayMode();
+  } else {
+    document.getElementById('pin-err').textContent = '❌ غلط PIN — دوبارہ کوشش کریں';
+    _pinBuf = ''; rDots();
+    setTimeout(function(){ document.getElementById('pin-err').textContent=''; }, 2000);
+  }
+}
+
+function lockApp() {
+  if (!confirm('لاک کریں؟')) return;
+  _role=''; _pinBuf=''; _selRole='admin';
+  selRole('admin'); rDots();
+  document.getElementById('pin-screen').classList.remove('hide');
+}
+
+function applyRole() {
+  var isAdmin = _role === 'admin';
+  var badge = document.getElementById('role-badge');
+  if (badge) {
+    badge.className = 'role-badge ' + (isAdmin ? 'rb-admin' : 'rb-worker');
+    badge.textContent = isAdmin ? '👑 ایڈمن' : '👷 ورکر';
+  }
+  var tabs = document.querySelectorAll('.tab');
+  if (!isAdmin) {
+    if (tabs[5]) tabs[5].style.display=''; // add
+    if (tabs[6]) tabs[6].style.display='none'; // data
+    if (tabs[7]) tabs[7].style.display='none'; // analytics
+    if (tabs[8]) tabs[8].style.display=''; // map - worker can see
+  } else {
+    for (var i=0;i<tabs.length;i++) tabs[i].style.display='';
+  }
+  // Worker: hide edit/delete buttons via CSS class
+  var styleId = 'worker-style';
+  var existing = document.getElementById(styleId);
+  if (existing) existing.parentNode.removeChild(existing);
+  if (!isAdmin) {
+    var s = document.createElement('style');
+    s.id = styleId;
+    s.textContent = '.worker-hide { display:none !important; }';
+    document.head.appendChild(s);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// SAMPLE DATA
+// ═══════════════════════════════════════════════════════
+function loadSample() {
+  if (ld().length > 0) return;
+  var now = new Date().toISOString();
+
+  function mk(nm,dd,cn,hs,bl,gn,ag,ph,st,ps,nt) {
+    return {id:gid(),name:nm,dad:dd,cnic:cn,house:hs,block:bl,gender:gn,age:ag,phone:ph,
+            ps:ps||'',status:st,note:nt||'',voted:false,created:now,updated:now};
+  }
+
+  // Block 104 ECP data
+  var b104cnics = [
+    ['33100-4012085-3','male','92','1'],['33102-6883013-3','male','','2'],['33100-0883670-5','male','','3'],
+    ['33102-7431371-3','male','','4'],['33102-9507665-5','male','','5'],['33100-1069184-7','male','','6'],
+    ['33100-3490807-9','male','','7'],['33102-4188971-3','male','','8'],['33102-3559723-1','male','','9'],
+    ['33102-4341777-7','male','','10'],['33102-5132194-9','male','','11'],['33102-0561275-1','male','','12'],
+    ['33102-0338946-7','male','','13'],['33102-3680716-7','male','','14'],['33100-5952022-3','male','','15'],
+    ['33100-6088478-7','male','','16'],['33100-7072203-1','male','','17'],['33100-8959974-5','male','','18'],
+    ['33100-0697688-9','male','','19'],['33100-5603946-5','male','','20'],['33100-9265519-9','male','','21'],
+    ['33100-1748251-1','male','','22'],['33102-1297318-1','male','','23'],['33100-0541420-1','male','','24'],
+    ['33100-9005081-9','male','24','25'],['33102-8257079-5','male','','26'],['39102-7249287-9','male','','27'],
+    ['33100-7375895-9','male','','28'],['33100-0236795-1','male','','29'],['33102-8017114-5','male','','30'],
+    ['33100-5145399-9','male','99','31'],['33100-5240494-9','male','','32'],['33102-6014875-1','male','','33'],
+    ['33102-2506002-9','male','','34'],['33102-5786104-7','male','','35'],['33102-7028489-5','male','','36'],
+    ['33100-0732087-5','male','','37'],['33102-1377234-7','male','','38'],['33102-2776538-1','male','','39'],
+    ['34201-7157885-7','male','','40'],['33102-1515647-5','male','','41'],['35401-4684369-5','male','','42'],
+    ['36103-6309777-9','male','','43'],['33102-9766363-9','male','24','44'],['33100-4614339-7','male','','45'],
+    ['33100-9253899-7','male','','46'],['33102-1982633-5','male','','47'],['33102-3075992-9','male','','48'],
+    ['33100-0949942-3','male','','49'],['33102-7946248-9','male','','50'],['33100-5918167-7','male','','51'],
+    ['33102-4762463-9','male','','52'],['33102-4367994-1','male','','53'],['33100-9797198-7','male','','54'],
+    ['33100-1622437-7','male','','55'],['33102-7273701-3','male','','56'],['33100-8904124-7','male','','57'],
+    ['33102-6568269-3','male','','58'],['33100-8071802-5','male','','59'],['33100-6640768-3','male','','60'],
+    ['33102-3389163-7','male','','61'],['33102-1679779-3','male','','62'],['33100-7778193-1','male','','63'],
+    ['34101-2471435-9','male','','64'],['33100-9797293-7','male','','65'],['33102-7590307-3','male','','66'],
+    ['33100-2373140-9','male','','67'],['33100-0834998-7','male','','68'],['33102-1927797-9','male','','69'],
+    ['33100-2704267-9','male','','70'],['33100-2666963-1','male','','71'],['33100-2442479-9','male','','72'],
+    ['33102-7547894-3','male','','73'],['33100-5065223-6','male','','74'],['33102-6874022-8','male','92','75'],
+    ['33100-1614454-2','male','','76'],['33100-8948897-0','male','','77'],['33100-8949847-0','male','','78'],
+    ['33102-6774929-8','male','','79'],['33100-3394085-2','male','','80'],['33102-8657959-8','male','','81'],
+    ['33102-5701859-6','male','','82'],['33102-8147442-2','male','','83'],['33102-8175333-8','male','','84'],
+    ['33102-5088330-0','male','','85'],['33102-2247619-2','male','','86'],
+    ['33102-1931340-0','female','','87'],['33402-3251360-6','female','','88'],['33102-5022416-4','female','','89'],
+    ['33102-5021561-4','female','','90'],['37100-9236427-0','female','','91'],['33102-6076063-4','female','22','92'],
+    ['33102-7476896-8','female','','93'],['33102-2136980-6','female','','94'],['33100-2323766-8','female','','95'],
+    ['33100-1311232-4','female','','96'],['33102-2669090-4','female','','97'],['33102-1973215-6','female','','98'],
+    ['33102-1960910-8','female','','99'],['33102-9606510-4','female','','100'],['35202-1115020-8','female','','101'],
+    ['33100-4932838-4','female','','102'],['33102-0238875-0','female','','103'],['35401-9657775-6','female','','104'],
+    ['33100-5798126-8','female','','105'],['33100-4901646-6','female','66','106'],['33100-1354558-0','female','','107'],
+    ['31302-2086767-4','female','','108'],['33100-0532282-4','female','','109'],['33100-4616606-2','female','','110'],
+    ['33100-0520249-8','female','','111'],['33100-3232389-6','female','','112'],['33102-7899714-4','female','','113'],
+    ['33100-2836905-4','female','','114'],['33100-4077772-6','female','','115'],['36501-9074676-2','female','98','116'],
+    ['33303-4516296-0','female','','117'],['33102-3069831-0','female','','118'],['34101-2887682-4','female','','119'],
+    ['33100-6300735-2','female','','120'],['33100-0910386-0','female','','121'],['33100-6494478-8','female','','122'],
+    ['33303-6153283-0','female','29','123'],['33100-6629836-6','female','','124'],['33100-2336875-6','female','','125'],
+    ['33102-4680405-6','female','','126'],['33203-5951544-2','female','','127'],['34101-4762383-2','female','','128'],
+    ['35302-7883223-2','female','','129'],['33102-4188464-0','female','','130'],['33100-5484462-6','female','','131'],
+    ['33100-3622651-6','female','','132'],['33100-1224849-6','female','','133'],['33100-8294742-0','female','','134'],
+    ['33100-8126776-6','female','','135'],['33100-3772267-6','female','26','136'],['33102-0968445-8','female','','137']
+  ];
+
+  var b104 = [];
+  for (var i=0;i<b104cnics.length;i++) {
+    var row = b104cnics[i];
+    b104.push({
+      id:gid(), name:'', dad:'', cnic:row[0], house:'', block:'104',
+      gender:row[1], age:row[2], phone:'',
+      ps:'گورنمنٹ اسکول جناح آباد',
+      status:'unknown',
+      note:'Block 104 — ECP 2023 — Serial ' + row[3],
+      serial:row[3], voted:false, created:now, updated:now
+    });
+  }
+
+  var sample = [
+    mk('محمد دین','فضل دین','33102-1797772-9','P-2383','101','male','64','','unknown','GHS جیلانی پورہ','بزرگ'),
+    mk('سنز فراز','محمد دین','33100-1825779-7','P-2383','101','male','39','03001234567','maybe','GHS جیلانی پورہ',''),
+    mk('بشریٰ بیگم','محمد دین','33102-9876543-2','P-2383','101','female','58','','confirmed','GHS جیلانی پورہ','گھر والی'),
+    mk('غلام محمد','','33100-6701014-1','P-83/19','101','male','66','','confirmed','GHS جیلانی پورہ','قریبی'),
+    mk('محمد اشرف','غلام محمد','33100-2383147-5','P-83/19','101','male','56','','maybe','GHS جیلانی پورہ',''),
+    mk('محمد اکبر','غلام محمد','33102-7449780-9','P-83/19','101','male','46','','unknown','GHS جیلانی پورہ',''),
+    mk('صائمہ اکبر','محمد اکبر','33102-5544332-8','P-83/19','101','female','38','','confirmed','GHS جیلانی پورہ',''),
+    mk('محمد بوٹا','','33100-0979980-3','83/21','202','male','55','03331234567','confirmed','GPS فتح آباد غربی','برادری سردار — اہم'),
+    mk('محمد الیاس','محمد بوٹا','33100-0979982-7','83/21','202','male','44','','confirmed','GPS فتح آباد غربی','بھائی'),
+    mk('کاشف شہزاد','محمد بوٹا','33100-0979983-9','83/21','202','male','41','','confirmed','GPS فتح آباد غربی','بھائی'),
+    mk('نسرین بیبی','محمد بوٹا','33100-1122334-5','83/21','202','female','50','','confirmed','GPS فتح آباد غربی',''),
+    mk('عبدالجبار','','33102-8036921-5','P-31/2','203','male','50','03211234567','confirmed','GPS فتح آباد غربی','گلی سردار'),
+    mk('عبداللہ جبار','عبدالجبار','33102-8529849-6','P-31/2','203','male','22','','maybe','GPS فتح آباد غربی','پہلی بار ووٹ'),
+    mk('فرخندہ بیگم','عبدالجبار','33102-7788990-3','P-31/2','203','female','45','','confirmed','GPS فتح آباد غربی',''),
+    mk('ندیم احمد','','33100-3578625-9','B-7/204','204','male','38','','unknown','GPS فتح آباد غربی',''),
+    mk('رضیہ سلطانہ','ندیم احمد','33100-6677889-1','B-7/204','204','female','33','','unknown','GPS فتح آباد غربی',''),
+    mk('اللہ دتہ','','33100-8899001-5','G-12/205','205','male','60','','confirmed','GHS جیلانی پورہ','مسجد کمیٹی'),
+    mk('عبدالرحمان','اللہ دتہ','33100-7766554-3','G-12/205','205','male','35','03451234567','confirmed','GHS جیلانی پورہ','')
+  ];
+
+  var all = b104.concat(sample);
+  sd(all);
+}
+
+// ═══════════════════════════════════════════════════════
+// PWA
+// ═══════════════════════════════════════════════════════
+(function(){
+  try {
+    var manifest = {
+      name:'CC-72 الیکشن سسٹم', short_name:'CC-72',
+      start_url:'./', display:'standalone',
+      background_color:'#1B5E20', theme_color:'#1B5E20',
+      icons:[{src:"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231B5E20'/><text y='70' x='50' text-anchor='middle' font-size='55'>&#x1F3C6;</text></svg>",sizes:'192x192',type:'image/svg+xml'}]
+    };
+    var blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+    var link = document.getElementById('pwa-manifest');
+    if (link) link.href = URL.createObjectURL(blob);
+  } catch(e) {}
+})();
+
+
+// ═══════════════════════════════════════════════════════
+// MAP & POLLING STATIONS
+// ═══════════════════════════════════════════════════════
+var PS_DATA = [
+  {name:'GPS فتح آباد غربی', blocks:['202','203','204','206'], voters:5136,
+   lat:31.4285, lng:73.0815, color:'#1B5E20',
+   gmaps:'https://www.google.com/maps/dir/?api=1&destination=31.4285,73.0815'},
+  {name:'GHS جیلانی پورہ', blocks:['101','205'], voters:2531,
+   lat:31.4318, lng:73.0798, color:'#004D40',
+   gmaps:'https://www.google.com/maps/dir/?api=1&destination=31.4318,73.0798'},
+  {name:'گورنمنٹ اسکول جناح آباد', blocks:['201','103','102','104'], voters:2674,
+   lat:31.4255, lng:73.0840, color:'#0D47A1',
+   gmaps:'https://www.google.com/maps/dir/?api=1&destination=31.4255,73.0840'}
+];
+
+function rPsCards() {
+  var v = ld();
+  var html = '';
+  for (var i = 0; i < PS_DATA.length; i++) {
+    var ps = PS_DATA[i];
+    var imp=0, conf=0, voted=0;
+    for (var j=0; j<v.length; j++) {
+      if (ps.blocks.indexOf(v[j].block) >= 0) {
+        imp++;
+        if (v[j].status==='confirmed') conf++;
+        if (v[j].voted) voted++;
+      }
+    }
+    var confPct = ps.voters ? Math.round(conf/ps.voters*100) : 0;
+    var impPct  = ps.voters ? Math.round(imp/ps.voters*100)  : 0;
+    html +=
+      '<div style="border:2px solid '+ps.color+';border-radius:14px;margin-bottom:12px;overflow:hidden">' +
+        '<div style="background:'+ps.color+';color:#fff;padding:11px 14px;display:flex;justify-content:space-between;align-items:center">' +
+          '<div><div style="font-weight:700;font-size:13px">'+ps.name+'</div>' +
+          '<div style="font-size:10px;opacity:.85">بلاکس: '+ps.blocks.join(', ')+'</div></div>' +
+          '<span style="background:rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-weight:700">'+ps.voters.toLocaleString()+'</span>' +
+        '</div>' +
+        '<div style="padding:12px 14px">' +
+          '<div class="sg" style="margin-bottom:10px">' +
+            '<div class="sc"><div class="sn" style="color:'+ps.color+'">'+imp+'</div><div class="sl">📥 درآمد</div></div>' +
+            '<div class="sc"><div class="sn" style="color:#2E7D32">'+conf+'</div><div class="sl">✅ پکے</div></div>' +
+            '<div class="sc"><div class="sn" style="color:#004D40">'+voted+'</div><div class="sl">🗳️ ووٹ</div></div>' +
+          '</div>' +
+          '<div class="pw" style="margin-bottom:5px"><div class="pl"><span>درآمد</span><span>'+impPct+'%</span></div>' +
+          '<div class="pb pb-s"><div class="pf" style="width:'+impPct+'%;background:'+ps.color+'"></div></div></div>' +
+          '<div class="pw" style="margin-bottom:10px"><div class="pl"><span>✅ پکے</span><span>'+confPct+'%</span></div>' +
+          '<div class="pb pb-s"><div class="pf" style="width:'+confPct+'%;background:#2E7D32"></div></div></div>' +
+          '<a href="'+ps.gmaps+'" target="_blank" class="btn btn-sm btn-p" style="text-decoration:none">🧭 راستہ دیکھیں</a>' +
+        '</div>' +
+      '</div>';
+  }
+  var el = document.getElementById('ps-cards');
+  if (el) el.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+// PRINT FUNCTIONS
+// ═══════════════════════════════════════════════════════
+
+var _printContent = '';
+
+function printPSList(ps, statusFilter) {
+  var v = ld();
+  
+  // Filter by polling station
+  var list = ps === 'all' ? v : v.filter(function(x){ return x.ps === ps; });
+  
+  // Filter by status if provided
+  if (statusFilter) list = list.filter(function(x){ return x.status === statusFilter; });
+  
+  if (!list.length) { toast('⚠️ کوئی ووٹر نہیں ملا', true); return; }
+
+  // Sort by block then house
+  list.sort(function(a,b){
+    if (a.block < b.block) return -1;
+    if (a.block > b.block) return 1;
+    return (a.house||'').localeCompare(b.house||'');
+  });
+
+  var psTitle = ps === 'all' ? 'تمام پولنگ اسٹیشن' : ps;
+  var statusTitle = statusFilter === 'confirmed' ? ' — صرف پکے حامی' : '';
+  var today = new Date().toLocaleDateString('ur-PK');
+
+  var rows = '';
+  var currentBlock = '';
+  var counter = 1;
+
+  for (var i=0; i<list.length; i++) {
+    var v2 = list[i];
+    if (v2.block !== currentBlock) {
+      currentBlock = v2.block;
+      var blkName = BLKN[currentBlock] || currentBlock;
+      rows += '<tr style="background:#E8F5E9"><td colspan="6" style="font-weight:700;color:#1B5E20;padding:8px;font-size:13px">📍 بلاک ' + currentBlock + ' — ' + blkName + '</td></tr>';
+    }
+    var stMap = {confirmed:'✅ پکا', maybe:'❓ شاید', against:'❌ مخالف', unknown:'🔲 نامعلوم'};
+    rows += '<tr>' +
+      '<td style="text-align:center;font-weight:700">' + counter + '</td>' +
+      '<td style="font-weight:700">' + (v2.name||'—') + '</td>' +
+      '<td>' + (v2.dad||'—') + '</td>' +
+      '<td style="font-family:monospace;font-size:10px">' + (v2.cnic||'—') + '</td>' +
+      '<td>' + (v2.house||'—') + '</td>' +
+      '<td style="text-align:center">' + (stMap[v2.status]||'—') + '</td>' +
+      '</tr>';
+    counter++;
+  }
+
+  var html = '<div style="direction:rtl;font-family:Arial,sans-serif">' +
+    '<div style="text-align:center;margin-bottom:20px;border-bottom:3px solid #1B5E20;padding-bottom:12px">' +
+      '<div style="font-size:20px;font-weight:700;color:#1B5E20">🏆 فیصل علی رانا — CC-72 فتح آباد غربی</div>' +
+      '<div style="font-size:14px;margin-top:4px">پولنگ اسٹیشن: <strong>' + psTitle + '</strong>' + statusTitle + '</div>' +
+      '<div style="font-size:11px;color:#666;margin-top:4px">کل ووٹرز: ' + list.length + ' | تاریخ: ' + today + '</div>' +
+    '</div>' +
+    '<table style="width:100%;border-collapse:collapse;font-size:12px">' +
+      '<thead><tr style="background:#1B5E20;color:#fff">' +
+        '<th style="padding:7px;border:1px solid #000;width:40px">#</th>' +
+        '<th style="padding:7px;border:1px solid #000;text-align:right">نام</th>' +
+        '<th style="padding:7px;border:1px solid #000;text-align:right">والد/شوہر</th>' +
+        '<th style="padding:7px;border:1px solid #000;text-align:right">CNIC</th>' +
+        '<th style="padding:7px;border:1px solid #000;text-align:right">گھر نمبر</th>' +
+        '<th style="padding:7px;border:1px solid #000">حمایت</th>' +
+      '</tr></thead>' +
+      '<tbody>' + rows + '</tbody>' +
+    '</table>' +
+    '<div style="margin-top:20px;text-align:center;font-size:11px;color:#666">CC-72 الیکشن سسٹم — فیصل علی رانا | PML-N | فیصل آباد</div>' +
+  '</div>';
+
+  showPreview('📋 ' + psTitle + statusTitle + ' (' + list.length + ' ووٹرز)', html);
+}
+
+function printSlips(ps) {
+  var v = ld();
+  var list = ps === 'all' ? v : v.filter(function(x){ return x.ps === ps; });
+  if (!list.length) { toast('⚠️ کوئی ووٹر نہیں ملا', true); return; }
+
+  list.sort(function(a,b){
+    if (a.block < b.block) return -1;
+    if (a.block > b.block) return 1;
+    return (parseInt(a.serial)||0) - (parseInt(b.serial)||0);
+  });
+
+  var psTitle = ps === 'all' ? 'تمام پولنگ اسٹیشن' : ps;
+  var today = new Date().toLocaleDateString('ur-PK');
+
+  // Card style — professional, 6 per A4 page (3 cols x 2 rows)
+  var cardStyle = [
+    'width:60mm',
+    'min-height:52mm',
+    'border:1.5px solid #1B5E20',
+    'display:inline-block',
+    'vertical-align:top',
+    'margin:3mm',
+    'font-family:Arial,sans-serif',
+    'direction:rtl',
+    'box-sizing:border-box',
+    'page-break-inside:avoid',
+    'overflow:hidden',
+    'border-radius:3px'
+  ].join(';');
+
+  var cards = '';
+  for (var i=0; i<list.length; i++) {
+    var vt = list[i];
+    cards +=
+      '<div style="' + cardStyle + '">' +
+
+        // ── Header ──
+        '<div style="background:#1B5E20;color:#fff;padding:4px 7px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #145214">' +
+          '<span style="font-size:10px;font-weight:700">فیصل علی رانا</span>' +
+          '<span style="font-size:8px;opacity:.8">CC-72 | PML-N</span>' +
+        '</div>' +
+
+        // ── Body ──
+        '<div style="padding:5px 7px">' +
+          '<table style="width:100%;border-collapse:collapse;font-size:9.5px;line-height:1.6">' +
+            '<tr>' +
+              '<td style="color:#444;width:26%;font-weight:600">نام</td>' +
+              '<td style="font-weight:700;font-size:11px;color:#000">' + (vt.name||'—') + '</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td style="color:#444;font-weight:600">والد</td>' +
+              '<td>' + (vt.dad||'—') + '</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td style="color:#444;font-weight:600">CNIC</td>' +
+              '<td style="font-family:monospace;font-size:8.5px;letter-spacing:.3px">' + (vt.cnic||'—') + '</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td style="color:#444;font-weight:600">گھر</td>' +
+              '<td>' + (vt.house||'—') + '</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td style="color:#444;font-weight:600">سیریل</td>' +
+              '<td style="font-weight:700;font-size:13px;color:#1B5E20">' + (vt.serial||'—') + '</td>' +
+            '</tr>' +
+          '</table>' +
+        '</div>' +
+
+        // ── Footer ──
+        '<div style="background:#E8F5E9;border-top:1px solid #C8E6C9;padding:3px 7px;display:flex;justify-content:space-between;align-items:center">' +
+          '<span style="font-size:8px;font-weight:700;color:#1B5E20">' + (vt.ps||'—').slice(0,18) + '</span>' +
+          '<span style="font-size:8px;color:#555;font-weight:600">بلاک: ' + (vt.block||'—') + '</span>' +
+        '</div>' +
+
+        // ── Cut line hint ──
+        '<div style="border-top:1px dashed #ccc;height:0;margin:0"></div>' +
+
+      '</div>';
+  }
+
+  var html =
+    '<div style="direction:rtl;font-family:Arial,sans-serif;margin:0;padding:0">' +
+      // Page header
+      '<div style="text-align:center;padding:8px 0 10px;border-bottom:2px solid #1B5E20;margin-bottom:8px">' +
+        '<div style="font-size:14px;font-weight:700;color:#1B5E20">فیصل علی رانا — CC-72 فتح آباد غربی | PML-N</div>' +
+        '<div style="font-size:10px;color:#555;margin-top:2px">' +
+          'پولنگ اسٹیشن: ' + psTitle + ' &nbsp;|&nbsp; ' +
+          'کل کارڈز: ' + list.length + ' &nbsp;|&nbsp; ' +
+          'تاریخ: ' + today +
+        '</div>' +
+      '</div>' +
+      // Cards grid
+      '<div style="line-height:0;text-align:right">' + cards + '</div>' +
+      // Footer
+      '<div style="margin-top:12px;text-align:center;font-size:8px;color:#aaa;border-top:1px dashed #ddd;padding-top:6px">' +
+        'CC-72 الیکشن سسٹم &mdash; PML-N فیصل آباد' +
+      '</div>' +
+    '</div>';
+
+  showPreview('🪪 ' + psTitle + ' — ' + list.length + ' کارڈز (6 فی صفحہ)', html);
+}
+
+function showPreview(title, html) {
+  var area = document.getElementById('print-preview-area');
+  var titleEl = document.getElementById('print-preview-title');
+  var content2 = document.getElementById('print-preview-content');
+  if (!area) return;
+  titleEl.textContent = title;
+  content2.innerHTML = html;
+  area.style.display = 'block';
+  _printContent = html;
+  area.scrollIntoView({behavior:'smooth'});
+}
+
+function doPrint() {
+  if (!_printContent) return;
+  var win = window.open('', '_blank');
+  win.document.write(
+    '<!DOCTYPE html><html dir="rtl"><head>' +
+    '<meta charset="UTF-8">' +
+    '<style>' +
+    '@import url("https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap");' +
+    'body{font-family:"Noto Nastaliq Urdu",Arial,sans-serif;direction:rtl;margin:15px;font-size:12px}' +
+    '@media print{@page{size:A4;margin:8mm} body{margin:0} .no-print{display:none}}' +
+    '</style></head><body>' +
+    _printContent +
+    '<script>window.onload=function(){window.print();}<\/script>' +
+    '</body></html>'
+  );
+  win.document.close();
+}
+
+// ── SERVICE WORKER ── (only on proper hosting)
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  navigator.serviceWorker.register('./sw.js').catch(function(){});
+}
+
+// ── ONLINE/OFFLINE INDICATOR ──
+function updateOnlineStatus() {
+  var ind = document.getElementById('online-ind');
+  if (!ind) return;
+  if (navigator.onLine) {
+    ind.style.background = '#4CAF50';
+    ind.title = 'آن لائن';
+  } else {
+    ind.style.background = '#F44336';
+    ind.title = 'آف لائن — ڈیٹا محفوظ ہے';
+    toast('⚠️ انٹرنیٹ بند — ڈیٹا locally محفوظ ہے', true);
+  }
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+
+// ── AUTO BACKUP REMINDER ──
+function checkBackupReminder() {
+  var last = localStorage.getItem('cc72_last_backup');
+  var now = Date.now();
+  var threeDays = 3 * 24 * 60 * 60 * 1000;
+  if (!last || (now - parseInt(last)) > threeDays) {
+    setTimeout(function() {
+      toast('💾 3+ دن سے بیک اپ نہیں — ڈیٹا ٹیب سے بیک اپ لیں!', true);
+    }, 5000);
+  }
+}
+
+function markBackupDone() {
+  localStorage.setItem('cc72_last_backup', Date.now().toString());
+}
+
+// ── POLLING DAY MODE ──
+var _pollingDay = localStorage.getItem('cc72_polling_day') === '1';
+
+function togglePollingDay() {
+  _pollingDay = !_pollingDay;
+  localStorage.setItem('cc72_polling_day', _pollingDay ? '1' : '0');
+  applyPollingDayMode();
+  toast(_pollingDay ? '🗳️ پولنگ ڈے موڈ آن — صرف ووٹ مارکنگ' : '✅ نارمل موڈ آن');
+}
+
+function applyPollingDayMode() {
+  var btn = document.getElementById('polling-day-btn');
+  if (!btn) return;
+  if (_pollingDay) {
+    btn.style.background = '#F44336';
+    btn.textContent = '🗳️ پولنگ ڈے موڈ — OFF کریں';
+    // Hide all tabs except dash and search
+    var tabs = document.querySelectorAll('.tab');
+    for (var i=0;i<tabs.length;i++) {
+      if (i !== 0 && i !== 1) tabs[i].style.display = 'none';
+    }
+  } else {
+    btn.style.background = 'var(--g1)';
+    btn.textContent = '🗳️ پولنگ ڈے موڈ آن کریں';
+    applyRole(); // restore tabs based on role
+  }
+}
+
+// ── GOOGLE SHEETS SYNC ──
+function saveGsUrl() {
+  var url = (document.getElementById('gs-url')||{value:''}).value;
+  localStorage.setItem('cc72_gs_url', url);
+}
+
+function loadGsUrl() {
+  var url = localStorage.getItem('cc72_gs_url') || '';
+  var el = document.getElementById('gs-url');
+  if (el) el.value = url;
+}
+
+function showSheetsSetup() { om('sheets-ov'); }
+
+function setSyncStatus(msg, isErr) {
+  var el = document.getElementById('sync-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.color = isErr ? 'var(--redm)' : 'var(--g1)';
+}
+
+function syncToSheets() {
+  var url = localStorage.getItem('cc72_gs_url') || '';
+  if (!url || !url.includes('script.google.com')) {
+    toast('⚠️ پہلے Google Script URL ڈالیں', true);
+    return;
+  }
+  var v = ld();
+  if (!v.length) { toast('⚠️ کوئی ڈیٹا نہیں', true); return; }
+
+  setSyncStatus('⏳ sync ہو رہا ہے — ' + v.length + ' ووٹرز...');
+
+  fetch(url, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({voters: v, synced: new Date().toISOString()})
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    if (d.ok) {
+      markBackupDone();
+      setSyncStatus('✅ sync مکمل — ' + d.total + ' ووٹرز Google Sheets میں محفوظ | ' + new Date().toLocaleTimeString('ur-PK'));
+      toast('✅ Google Sheets sync مکمل');
+    } else {
+      setSyncStatus('❌ sync ناکام — دوبارہ کوشش کریں', true);
+    }
+  })
+  .catch(function(e){
+    setSyncStatus('❌ خطا: ' + e.message + ' — انٹرنیٹ چیک کریں', true);
+    toast('⚠️ sync ناکام — انٹرنیٹ چیک کریں', true);
+  });
+}
+
+// ── STORAGE SIZE CHECK ──
+function checkStorageSize() {
+  try {
+    var data = localStorage.getItem('cc72_v4') || '';
+    var sizeKB = Math.round(data.length * 2 / 1024);
+    var sizeMB = (sizeKB / 1024).toFixed(2);
+    var pct = Math.round(sizeKB / 5120 * 100); // 5MB limit
+    
+    if (pct > 80) {
+      toast('⚠️ Storage ' + pct + '% بھر گئی (' + sizeMB + 'MB) — فوری بیک اپ لیں!', true);
+    }
+    return {kb: sizeKB, mb: sizeMB, pct: pct};
+  } catch(e) { return {kb:0, mb:'0', pct:0}; }
+}
+
+// ── GOOGLE DRIVE DIRECT BACKUP ──
+var _gtoken = localStorage.getItem('cc72_gtoken') || '';
+var _CLIENT_ID = ''; // user will paste
+
+function gdriveSetup() {
+  // Check if we have a valid token stored
+  var saved = localStorage.getItem('cc72_gtoken');
+  if (saved) {
+    _gtoken = saved;
+    showGdriveBackup('محفوظ اکاؤنٹ');
+  }
+}
+
+function gdriveSignIn() {
+  // Use Google OAuth2 implicit flow
+  var clientId = localStorage.getItem('cc72_gclient') || '';
+  if (!clientId) {
+    // Show client ID input
+    var cid = prompt('Google Client ID درج کریں:\n(ایک بار صرف — پھر یاد رہے گا)');
+    if (!cid) return;
+    localStorage.setItem('cc72_gclient', cid.trim());
+    clientId = cid.trim();
+  }
+  
+  var redirect = location.href.split('?')[0];
+  var scope = 'https://www.googleapis.com/auth/drive.file';
+  var url = 'https://accounts.google.com/o/oauth2/v2/auth' +
+    '?client_id=' + encodeURIComponent(clientId) +
+    '&redirect_uri=' + encodeURIComponent(redirect) +
+    '&response_type=token' +
+    '&scope=' + encodeURIComponent(scope) +
+    '&prompt=select_account';
+  
+  // Store state to handle redirect
+  localStorage.setItem('cc72_oauth_pending', '1');
+  window.location.href = url;
+}
+
+function gdriveCheckRedirect() {
+  // Check if we're returning from OAuth
+  var hash = window.location.hash;
+  if (hash && hash.includes('access_token')) {
+    var params = {};
+    hash.substring(1).split('&').forEach(function(p) {
+      var kv = p.split('=');
+      params[kv[0]] = decodeURIComponent(kv[1] || '');
+    });
+    if (params.access_token) {
+      _gtoken = params.access_token;
+      localStorage.setItem('cc72_gtoken', _gtoken);
+      localStorage.removeItem('cc72_oauth_pending');
+      // Clean URL
+      history.replaceState(null, '', location.pathname);
+      showGdriveBackup('Google Drive جڑ گیا ✅');
+      toast('✅ Google Drive connect ہو گیا!');
+    }
+  } else if (localStorage.getItem('cc72_gtoken')) {
+    showGdriveBackup('محفوظ اکاؤنٹ');
+  }
+}
+
+function showGdriveBackup(msg) {
+  var authArea = document.getElementById('gdrive-auth-area');
+  var backupArea = document.getElementById('gdrive-backup-area');
+  var userEl = document.getElementById('gdrive-user');
+  if (authArea) authArea.style.display = 'none';
+  if (backupArea) backupArea.style.display = '';
+  if (userEl) userEl.textContent = msg;
+}
+
+function gdriveSignOut() {
+  localStorage.removeItem('cc72_gtoken');
+  localStorage.removeItem('cc72_gclient');
+  _gtoken = '';
+  var authArea = document.getElementById('gdrive-auth-area');
+  var backupArea = document.getElementById('gdrive-backup-area');
+  if (authArea) authArea.style.display = '';
+  if (backupArea) backupArea.style.display = 'none';
+  toast('لاگ آؤٹ ہو گئے');
+}
+
+function backupToDrive() {
+  if (!_gtoken) { toast('⚠️ پہلے Google سے connect کریں', true); return; }
+  
+  var v = ld();
+  if (!v.length) { toast('⚠️ کوئی ڈیٹا نہیں', true); return; }
+  
+  var st = document.getElementById('gdrive-status');
+  if (st) st.textContent = '⏳ Google Drive میں save ہو رہا ہے...';
+  
+  var date = new Date();
+  var fname = 'CC72_Backup_' + 
+    date.getFullYear() + '-' + 
+    String(date.getMonth()+1).padStart(2,'0') + '-' + 
+    String(date.getDate()).padStart(2,'0') + '_' +
+    String(date.getHours()).padStart(2,'0') + 
+    String(date.getMinutes()).padStart(2,'0') + '.json';
+  
+  var data = JSON.stringify({
+    exported: date.toISOString(),
+    version: 4,
+    total: v.length,
+    voters: v
+  });
+
+  // Step 1: Create file metadata
+  fetch('https://www.googleapis.com/drive/v3/files', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + _gtoken,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: fname,
+      mimeType: 'application/json',
+      parents: [] 
+    })
+  })
+  .then(function(r) {
+    if (r.status === 401) { 
+      gdriveSignOut(); 
+      toast('⚠️ Session ختم — دوبارہ login کریں', true);
+      throw new Error('unauthorized');
+    }
+    return r.json();
+  })
+  .then(function(meta) {
+    // Step 2: Upload file content
+    return fetch('https://www.googleapis.com/upload/drive/v3/files/' + meta.id + '?uploadType=media', {
+      method: 'PATCH',
+      headers: {
+        'Authorization': 'Bearer ' + _gtoken,
+        'Content-Type': 'application/json'
+      },
+      body: data
+    });
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(result) {
+    markBackupDone();
+    if (st) st.textContent = '✅ ' + fname + ' — Drive میں محفوظ ' + new Date().toLocaleTimeString('ur-PK');
+    toast('✅ Google Drive بیک اپ مکمل — ' + v.length + ' ووٹرز');
+  })
+  .catch(function(e) {
+    if (e.message !== 'unauthorized') {
+      if (st) st.textContent = '❌ ناکام — ' + e.message;
+      toast('⚠️ Drive بیک اپ ناکام', true);
+    }
+  });
+}
+
+// App starts at PIN screen
+</script>
+</body>
+</html>
